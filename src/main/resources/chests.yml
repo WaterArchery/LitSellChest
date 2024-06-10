@@ -1,0 +1,60 @@
+chest1:
+  name: '&eSell Chest #1'
+  price: 1000
+  tax: 0.1
+  sellMultiplier: 1.0
+  sellInterval: 60
+  item:
+    name: '%name%'
+    material: 'CHEST'
+    customModelData: -9999
+    lore:
+      - '&7'
+      - '&b&lINFO'
+      - '&7You can place your items'
+      - '&7inside this chest to sell them.'
+      - '&7'
+      - '&b&lPROPERTIES'
+      - '&7Tax: &b%tax%%'
+      - '&7Sell Multiplier: &b%sellMultiplier%'
+      - '&7Interval: &b%sellInterval%s'
+chest2:
+  name: '&eSell Chest #2'
+  price: 5000
+  tax: 0.05
+  sellMultiplier: 1.05
+  sellInterval: 30
+  item:
+    name: '%name%'
+    material: 'CHEST'
+    customModelData: -9999
+    lore:
+      - '&7'
+      - '&b&lINFO'
+      - '&7You can place your items'
+      - '&7inside this chest to sell them.'
+      - '&7'
+      - '&b&lPROPERTIES'
+      - '&7Tax: &b%tax%%'
+      - '&7Sell Multiplier: &b%sellMultiplier%'
+      - '&7Interval: &b%sellInterval%s'
+chest3:
+  name: '&eSell Chest #3'
+  price: 10000
+  tax: 0
+  sellMultiplier: 1.1
+  sellInterval: 30
+  item:
+    name: '%name%'
+    material: 'CHEST'
+    customModelData: -9999
+    lore:
+      - '&7'
+      - '&b&lINFO'
+      - '&7You can place your items'
+      - '&7inside this chest to sell them.'
+      - '&7'
+      - '&b&lPROPERTIES'
+      - '&7Tax: &b%tax%%'
+      - '&7Sell Multiplier: &b%sellMultiplier%'
+      - '&7Interval: &b%sellInterval%s'

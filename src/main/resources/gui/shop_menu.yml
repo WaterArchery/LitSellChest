@@ -1,0 +1,61 @@
+shop_menu:
+  size: 27
+  name: '&8SellChest - Shop'
+  fillMenu:
+    enabled: true
+    fillItem: 'BLACK_STAINED_GLASS_PANE'
+  items:
+    chest1:
+      slot: 11
+      material: CHEST
+      name: '%name%'
+      lore:
+        - ''
+        - '&b&lINFO'
+        - '&7You can place your items'
+        - '&7inside this chest to sell them.'
+        - '&7'
+        - '&b&lPROPERTIES'
+        - '&7Tax: &b%tax%%'
+        - '&7Sell Multiplier: &b%sellMultiplier%'
+        - '&7Interval: &b%sellInterval%s'
+        - '&7'
+        - '&b&lBUY NOW'
+        - '&7Price: &b%price%'
+        - '&7Click here to &bbuy now!'
+    chest2:
+      slot: 13
+      material: CHEST
+      name: '%name%'
+      lore:
+        - ''
+        - '&b&lINFO'
+        - '&7You can place your items'
+        - '&7inside this chest to sell them.'
+        - '&7'
+        - '&b&lPROPERTIES'
+        - '&7Tax: &b%tax%%'
+        - '&7Sell Multiplier: &b%sellMultiplier%'
+        - '&7Interval: &b%sellInterval%s'
+        - '&7'
+        - '&b&lBUY NOW'
+        - '&7Price: &b%price%'
+        - '&7Click here to &bbuy now!'
+    chest3:
+      slot: 15
+      material: CHEST
+      name: '%name%'
+      lore:
+        - ''
+        - '&b&lINFO'
+        - '&7You can place your items'
+        - '&7inside this chest to sell them.'
+        - '&7'
+        - '&b&lPROPERTIES'
+        - '&7Tax: &b%tax%%'
+        - '&7Sell Multiplier: &b%sellMultiplier%'
+        - '&7Interval: &b%sellInterval%s'
+        - '&7'
+        - '&b&lBUY NOW'
+        - '&7Price: &b%price%'
+        - '&7Click here to &bbuy now!'

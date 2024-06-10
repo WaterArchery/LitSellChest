@@ -1,0 +1,23 @@
+your_chests:
+  size: 27
+  name: '&8SellChest - Your Chests'
+  chestItem:
+    material: CHEST
+    name: '&bSellChest'
+    lore:
+      - ''
+      - '&b&lINFO'
+      - ' &7This is your personal'
+      - ' &bSellChest. &7You can'
+      - ' &7store items here to'
+      - ' &7sell them &bautomatically.'
+      - ''
+      - '&b&LLOCATION'
+      - ' &7World: &b%world%'
+      - ' &7X: &b%x%'
+      - ' &7Y: &b%y%'
+      - ' &7Z: &b%z%'
+      - ' &7Is Loaded: &b%loaded%'
+      - ''
+      - '&7Click here to &bopen &7this'
+      - '&bchest''s inventory.'
