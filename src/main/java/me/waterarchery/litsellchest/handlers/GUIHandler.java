@@ -54,7 +54,7 @@ public class GUIHandler {
 
     public ItemStack createItem(String menuName, String path){
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        LitLibs libs = LitSellChest.getInstance().getLibs();;
+        LitLibs libs = LitSellChest.getInstance().getLibs();
         MessageHandler messageHandler = libs.getMessageHandler();
         NBTAPIHook nbtapiHook = libs.getNBTAPIHook();
 
