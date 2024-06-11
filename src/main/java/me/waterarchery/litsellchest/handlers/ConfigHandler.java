@@ -47,6 +47,7 @@ public class ConfigHandler {
         saveDefaultYaml("default_menu", "gui");
         saveDefaultYaml("shop_menu", "gui");
         saveDefaultYaml("your_chests", "gui");
+        saveDefaultYaml("chest_menu", "gui");
     }
 
     private void saveDefaultYaml(String fileName, String folder) {

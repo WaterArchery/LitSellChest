@@ -49,6 +49,7 @@ public class DefaultLang extends ConfigManager {
         addDefault(ConfigPart.noComment("BrokeChest", "&7You successfully &bbroke your Sell Chest"));
         addDefault(ConfigPart.noComment("NeedToNear", "&7You need to be near to your &bSell Chest &7to do this!"));
         addDefault(ConfigPart.noComment("MoneyDeposited", "&7Your items are &bsold &7and you received &b%money%$! You also paid %tax%$ tax!"));
+        addDefault(ConfigPart.noComment("PluginReloaded", "&aPlugin reloaded successfully!"));
         addDefault(ConfigPart.noComment("Status.waiting", "&7Waiting to sell!"));
         addDefault(ConfigPart.noComment("Status.selling", "&aSelling now!"));
         addDefault(ConfigPart.noComment("Status.stopped", "&cStopped!"));

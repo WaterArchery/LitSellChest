@@ -40,7 +40,7 @@ public class ChestHandler {
         startTask();
     }
 
-    private void startTask() {
+    public void startTask() {
         if (task != null) {
             task.cancel();
         }

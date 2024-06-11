@@ -6,7 +6,7 @@
 
   <groupId>me.waterarchery</groupId>
   <artifactId>LitSellChest</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>LitSellChest</name>
@@ -120,7 +120,7 @@
       <dependency>
           <groupId>me.waterarchery</groupId>
           <artifactId>LitLibs</artifactId>
-          <version>1.0.6</version>
+          <version>1.0.7</version>
           <scope>provided</scope>
       </dependency>
   </dependencies>

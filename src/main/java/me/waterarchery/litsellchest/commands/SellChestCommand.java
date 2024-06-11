@@ -69,4 +69,15 @@ public class SellChestCommand extends BaseCommand {
         }
     }
 
+    @Permission("litsellchest.admin.reload")
+    @SubCommand("give")
+    public void reloadCommand(CommandSender sender) {
+        ChestHandler chestHandler = ChestHandler.getInstance();
+        ConfigHandler configHandler = ConfigHandler.getInstance();
+
+        chestHandler.loadChestTypes();
+        chestHandler.startTask();
+        configHandler.sendMessageLang(sender, "PluginReloaded");
+    }
+
 }
