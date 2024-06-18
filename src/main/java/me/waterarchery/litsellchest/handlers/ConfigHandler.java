@@ -37,17 +37,18 @@ public class ConfigHandler {
         // for it.
         //
         // It is easier this way.
-        config = new Config(libs, "", "config", true);
-        config = new Config(libs, "", "config", true);
-        lang = new DefaultLang(libs, "lang", "lang-en", true);
-        lang = new DefaultLang(libs, "lang", "lang-en", true);
-        chests = new ConfigManager(libs, "", "chests", true);
-        chests = new ConfigManager(libs, "", "chests", true);
-
         saveDefaultYaml("default_menu", "gui");
         saveDefaultYaml("shop_menu", "gui");
         saveDefaultYaml("your_chests", "gui");
         saveDefaultYaml("chest_menu", "gui");
+        saveDefaultYaml("chests", "");
+
+        config = new Config(libs, "", "config", true);
+        config = new Config(libs, "", "config", true);
+        lang = new DefaultLang(libs, "lang", "lang-en", true);
+        lang = new DefaultLang(libs, "lang", "lang-en", true);
+        chests = new ConfigManager(libs, "", "chests", true);
+        chests = new ConfigManager(libs, "", "chests", true);
     }
 
     private void saveDefaultYaml(String fileName, String folder) {
