@@ -91,7 +91,8 @@ public class SellTask extends BukkitRunnable {
                             Player player = offlinePlayer.getPlayer();
                             SoundManager.sendSound(player, "SellSoundToPlayer");
                             String mes = configHandler.getMessageLang("MoneyDeposited");
-                            mes = mes.replace("%money%", totalPrice + "");
+                            String formatted = String.format("%,.2f", totalPrice);
+                            mes = mes.replace("%money%", formatted);
                             mes = mes.replace("%tax%", tax + "");
                             messageHandler.sendMessage(player, mes);
                         }
