@@ -53,11 +53,14 @@ public class ConfigHandler {
 
     private void saveDefaultYaml(String fileName, String folder) {
         LitSellChest instance = LitSellChest.getInstance();
-        File file = new File(LitSellChest.getInstance().getDataFolder(), "/"+ folder + "/" + fileName + ".yml");
+        File file;
+        if (folder.equalsIgnoreCase("")) file = new File(instance.getDataFolder(), fileName + ".yml");
+        else file = new File(instance.getDataFolder(), "/" + folder + "/" + fileName + ".yml");
         if (!file.exists()) {
             try {
                 if (!file.exists()) {
-                    instance.saveResource(folder + "/" + file.getName(), false);
+                    if (folder.equalsIgnoreCase("")) instance.saveResource(file.getName(), false);
+                    else instance.saveResource(folder + "/" + file.getName(), false);
                 }
             } catch (NullPointerException | IllegalArgumentException e) {
                 Bukkit.getConsoleSender().sendMessage("§7[§bLitSellChest§7] §finvalid " + fileName + " file is empty");
@@ -71,7 +74,7 @@ public class ConfigHandler {
              if (folder.equalsIgnoreCase("gui"))
                 guiFileList.add(configNameHolder);
         } catch (IOException | InvalidConfigurationException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
