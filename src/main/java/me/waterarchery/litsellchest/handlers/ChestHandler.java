@@ -10,6 +10,7 @@ import me.waterarchery.litsellchest.models.SellChestType;
 import me.waterarchery.litsellchest.models.SellTask;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -91,6 +92,34 @@ public class ChestHandler {
         }
 
         return chestType;
+    }
+
+    public int getMaxPlaceableChests(OfflinePlayer p) {
+        int current = 0;
+        if (!p.isOnline()) {
+            return -1;
+        }
+        for (String node : LitSellChest.getInstance().getConfig().getStringList("PlaceLimits")) {
+            String permNode = node.split(":")[0];
+            int count = Integer.parseInt(node.split(":")[1]);
+            if (((Player) p).hasPermission(permNode)) {
+                if (count > current) {
+                    current = count;
+                }
+            }
+        }
+        return current;
+    }
+
+    public int getChestCount(OfflinePlayer p) {
+        UUID uuid = p.getUniqueId();
+        int count = 0;
+        for (SellChest sellChest : loadedChests) {
+            if (sellChest != null && sellChest.getOwner().equals(uuid)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public @Nullable SellChestType getType(ItemStack itemStack) {

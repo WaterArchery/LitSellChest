@@ -18,6 +18,16 @@ public class Config extends ConfigManager {
         addDefault(new ConfigPart("Prefix", "&8[&bLitSellChest&8] ", Collections.emptyList()));
         addDefault(new ConfigPart("PriceHook", "Essentials", Arrays.asList("Usable values are", "EssentialsX, EconomyShopGUI, Essentials, ShopGUIPlus")));
         addDefault(new ConfigPart("DebugMessages", false, Collections.singletonList("Do not enable it unless you are told to do")));
+        addDefault(ConfigPart.of("PlaceLimits", Arrays.asList(
+                        "litsellchest.placedefault:5",
+                        "litsellchest.placevip:10",
+                        "litsellchest.placemvip:12",
+                        "litsellchest.placevip:10"
+                ),
+                Arrays.asList(
+                        "For example if a group named 'VIP' has permission 'litsellchest.placevip'",
+                        "they can place 10 sell chests"
+                )));
         addDefault(new ConfigPart("SoundsEnabled", true, Collections.emptyList()));
         addDefault(new ConfigPart("SoundsVolume", 5, Collections.emptyList()));
         addDefault(ConfigPart.of("Sounds", null, Arrays.asList("You can completely disable all sounds above.", "",
@@ -30,6 +40,7 @@ public class Config extends ConfigManager {
         addDefault(new ConfigPart("Sounds.NoPermission", "ENTITY_SPLASH_POTION_BREAK", Collections.emptyList()));
         addDefault(new ConfigPart("Sounds.InvalidCommand", "ENTITY_SPLASH_POTION_BREAK", Collections.emptyList()));
         addDefault(new ConfigPart("Sounds.NeedToNear", "ENTITY_SPLASH_POTION_BREAK", Collections.emptyList()));
+        addDefault(new ConfigPart("Sounds.LimitExceedSound", "ENTITY_SPLASH_POTION_BREAK", Collections.emptyList()));
         addDefault(new ConfigPart("Sounds.SellSoundToPlayer", "ENTITY_PLAYER_LEVELUP", Collections.emptyList()));
         addDefault(new ConfigPart("Sounds.YourChestsOpened", "ENTITY_PLAYER_LEVELUP", Collections.emptyList()));
         addDefault(new ConfigPart("Sounds.InventoryOpened", "ENTITY_PLAYER_LEVELUP", Collections.emptyList()));

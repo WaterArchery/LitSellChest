@@ -48,6 +48,8 @@ public class DefaultLang extends ConfigManager {
         addDefault(ConfigPart.noComment("ChestBought", "&7You successfully bought &ba SellChest! &7Your new balance &b%money%$!"));
         addDefault(ConfigPart.noComment("BrokeChest", "&7You successfully &bbroke your Sell Chest"));
         addDefault(ConfigPart.noComment("NeedToNear", "&7You need to be near to your &bSell Chest &7to do this!"));
+        addDefault(ConfigPart.noComment("LimitReached",
+                "&7Your Sell Chest limit is exceed &7(&c%current%/%max%&7). You need to &brank up &7in order to place more sell chests."));
         addDefault(ConfigPart.noComment("MoneyDeposited", "&7Your items are &bsold &7and you received &b%money%$! You also paid %tax%$ tax!"));
         addDefault(ConfigPart.noComment("PluginReloaded", "&aPlugin reloaded successfully!"));
         addDefault(ConfigPart.noComment("Status.waiting", "&7Waiting to sell!"));
