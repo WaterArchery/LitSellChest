@@ -154,9 +154,7 @@ public class ChestHandler {
 
     public List<String> getChestTypesAsString() {
         List<String> list = new ArrayList<>();
-        getChestTypes().forEach((chest) -> {
-            list.add(chest.getId());
-        });
+        getChestTypes().forEach((chest) -> list.add(chest.getId()));
         return list;
     }
 

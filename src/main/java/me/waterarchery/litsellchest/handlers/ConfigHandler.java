@@ -29,7 +29,6 @@ public class ConfigHandler {
     }
 
     private ConfigHandler() {
-        LitSellChest instance = LitSellChest.getInstance();
         LitLibs libs = LitSellChest.getInstance().getLibs();
         // Saving and loading twice because
         // yaml.setComment() not working without saving
