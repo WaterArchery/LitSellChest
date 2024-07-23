@@ -15,9 +15,15 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BoundingBox;
+
+import java.util.Collection;
 
 public class SellTask extends BukkitRunnable {
 
@@ -53,7 +59,8 @@ public class SellTask extends BukkitRunnable {
                         handleSelling(sellChest);
                     }
                 }
-                sellChest.createHologram();
+
+                sellChest.updateHologram();
             }
         }
     }
@@ -71,12 +78,32 @@ public class SellTask extends BukkitRunnable {
                 BlockState state = block.getState();
                 if (state instanceof Chest) {
                     Chest chest = (Chest) block.getState();
+                    // Selling chest contents
                     for (ItemStack itemStack : chest.getInventory()) {
                         if (itemStack != null && itemStack.getType() != Material.AIR) {
                             double price = priceHook.getPrice(itemStack);
                             if (price > 0) {
                                 totalPrice += price;
                                 itemStack.setAmount(0);
+                            }
+                        }
+                    }
+
+                    // Selling nearby items
+                    SellChestType type = sellChest.getChestType();
+                    BoundingBox boundingBox = BoundingBox.of(block.getLocation(),
+                            type.getCollectRadius(),
+                            type.getCollectRadius(),
+                            type.getCollectRadius());
+                    Collection<Entity> nearbyItems = block.getWorld().getNearbyEntities(boundingBox,
+                            (entity) -> entity.getType() == EntityType.DROPPED_ITEM);
+                    for (Entity item : nearbyItems) {
+                        ItemStack itemStack = ((Item) item).getItemStack().clone();
+                        if (itemStack != null && itemStack.getType() != Material.AIR) {
+                            double price = priceHook.getPrice(itemStack);
+                            if (price > 0) {
+                                totalPrice += price;
+                                item.remove();
                             }
                         }
                     }

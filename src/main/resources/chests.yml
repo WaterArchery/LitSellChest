@@ -4,6 +4,7 @@ chest1:
   tax: 0.1
   sellMultiplier: 1.0
   sellInterval: 60
+  collectRadius: 5
   item:
     name: '%name%'
     material: 'CHEST'
@@ -24,6 +25,7 @@ chest2:
   tax: 0.05
   sellMultiplier: 1.05
   sellInterval: 30
+  collectRadius: 10
   item:
     name: '%name%'
     material: 'CHEST'
@@ -44,6 +46,7 @@ chest3:
   tax: 0
   sellMultiplier: 1.1
   sellInterval: 30
+  collectRadius: 15
   item:
     name: '%name%'
     material: 'CHEST'

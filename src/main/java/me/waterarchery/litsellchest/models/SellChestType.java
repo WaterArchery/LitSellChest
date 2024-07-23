@@ -20,6 +20,7 @@ public class SellChestType {
     private final double sellMultiplier;
     private final double sellInterval;
     private final double price;
+    private final int collectRadius;
 
     public SellChestType(String id) {
         this.id = id;
@@ -32,6 +33,7 @@ public class SellChestType {
         sellMultiplier = yml.getDouble(getId() + ".sellMultiplier");
         sellInterval = yml.getInt(getId() + ".sellInterval");
         price = yml.getInt(getId() + ".price");
+        collectRadius = yml.getInt(getId() + ".collectRadius");
     }
 
     public ItemStack toItemStack() {
@@ -87,4 +89,9 @@ public class SellChestType {
     public double getPrice() {
         return price;
     }
+
+    public int getCollectRadius() {
+        return collectRadius;
+    }
+
 }
