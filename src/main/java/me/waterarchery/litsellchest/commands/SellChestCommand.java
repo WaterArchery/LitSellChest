@@ -70,7 +70,7 @@ public class SellChestCommand extends BaseCommand {
     }
 
     @Permission("litsellchest.admin.reload")
-    @SubCommand("give")
+    @SubCommand("reload")
     public void reloadCommand(CommandSender sender) {
         ChestHandler chestHandler = ChestHandler.getInstance();
         ConfigHandler configHandler = ConfigHandler.getInstance();

@@ -29,19 +29,22 @@ public class ConfigHandler {
     }
 
     private ConfigHandler() {
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        load();
+    }
+
+    public void load() {
         // Saving and loading twice because
         // yaml.setComment() not working without saving
         // and I am too lazy to write a extensize logic
         // for it.
         //
         // It is easier this way.
+        LitLibs libs = LitSellChest.getInstance().getLibs();
         saveDefaultYaml("default_menu", "gui");
         saveDefaultYaml("shop_menu", "gui");
         saveDefaultYaml("your_chests", "gui");
         saveDefaultYaml("chest_menu", "gui");
         saveDefaultYaml("chests", "");
-
         config = new Config(libs, "", "config", true);
         config = new Config(libs, "", "config", true);
         lang = new DefaultLang(libs, "lang", "lang-en", true);
