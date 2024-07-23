@@ -5,6 +5,7 @@ import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.hooks.HologramHook;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,46 +19,56 @@ public class SellChest {
     private final UUID uuid;
     private final UUID owner;
     private final SellChestType chestType;
-    private final Location location;
-    private final Location hologramLocation;
     private int remainingTime;
     private double money;
     private ChestStatus status;
+    private final String worldName;
+    private final int x;
+    private final int y;
+    private final int z;
+    private final double heightOffset;
 
-    public SellChest(UUID uuid, UUID owner, SellChestType chestType, Location location, double money, ChestStatus status) {
+    public SellChest(UUID uuid, UUID owner, SellChestType chestType, String worldName, int x, int y, int z, double money, ChestStatus status) {
         this.uuid = uuid;
         this.owner = owner;
         this.chestType = chestType;
-        this.location = location;
         this.remainingTime = (int) chestType.getSellInterval();
         this.money = money;
         this.status = status;
-
+        this.worldName = worldName;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         FileConfiguration yml = ConfigHandler.getInstance().getLang().getYml();
-        double heightOffset = yml.getDouble("ChestHologram.height");
-        hologramLocation = this.getLocation().clone().add(0.5, heightOffset, 0.5);
+        heightOffset = yml.getDouble("ChestHologram.height");
     }
 
     public void createHologram() {
+        if (!isLoaded()) return;
+
         LitSellChest litSellChest = LitSellChest.getInstance();
         LitLibs libs = litSellChest.getLibs();
         HologramHook hologramHook = libs.getHookHandler().getHologramHook();
         List<String> lines = getHologramLines();
-        hologramHook.createHologram(hologramLocation, lines);
+        hologramHook.createHologram(getHologramLocation(), lines);
     }
 
     public void deleteHologram() {
+        if (!isLoaded()) return;
+
         LitSellChest litSellChest = LitSellChest.getInstance();
         LitLibs libs = litSellChest.getLibs();
         HologramHook hologramHook = libs.getHookHandler().getHologramHook();
-        hologramHook.deleteHologram(hologramLocation);
+        hologramHook.deleteHologram(getHologramLocation());
     }
 
     public void updateHologram() {
+        if (!isLoaded()) return;
+
         LitSellChest litSellChest = LitSellChest.getInstance();
         LitLibs libs = litSellChest.getLibs();
         HologramHook hologramHook = libs.getHookHandler().getHologramHook();
-        hologramHook.updateHologram(hologramLocation, getHologramLines());
+        hologramHook.updateHologram(getHologramLocation(), getHologramLines());
     }
 
     public List<String> getHologramLines() {
@@ -95,9 +106,9 @@ public class SellChest {
     }
 
     public boolean isLoaded() {
-        int chunkX = (int) (location.getX() / 16);
-        int chunkZ = (int) (location.getZ() / 16);
-        World world = location.getWorld();
+        int chunkX = (int) (getLocation().getX() / 16);
+        int chunkZ = (int) (getLocation().getZ() / 16);
+        World world = getLocation().getWorld();
         if (world != null) {
             return world.isChunkLoaded(chunkX, chunkZ);
         }
@@ -113,7 +124,8 @@ public class SellChest {
     }
 
     public Location getLocation() {
-        return location;
+        World world = Bukkit.getWorld(worldName);
+        return new Location(world, x, y, z);
     }
 
     public int getRemainingTime() {
@@ -142,6 +154,10 @@ public class SellChest {
 
     public UUID getOwner() {
         return owner;
+    }
+
+    public Location getHologramLocation() {
+        return this.getLocation().clone().add(0.5, heightOffset, 0.5);
     }
 
 }

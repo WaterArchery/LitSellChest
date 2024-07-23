@@ -126,8 +126,7 @@ public class SQLiteDatabase extends SQLite {
                 else if (type == null)
                     logger.error("Error while parsing type. Got value: " + rawType);
                 else {
-                    Location loc = new Location(Bukkit.getWorld(world), x, y, z);
-                    SellChest sellChest = new SellChest(id, owner, type, loc, money, status);
+                    SellChest sellChest = new SellChest(id, owner, type, world, (int) x, (int) y, (int) z, money, status);
                     sellChest.createHologram();
                     chestHandler.addLoadedChest(sellChest);
                     total++;

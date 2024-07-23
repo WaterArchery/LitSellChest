@@ -38,8 +38,12 @@ public class ChestPlaceListener implements Listener {
                     int chestCount = chestHandler.getChestCount(player);
                     int maxChests = chestHandler.getMaxPlaceableChests(player);
                     if (chestCount < maxChests) {
-                        Location location = block.getLocation();
-                        SellChest sellChest = new SellChest(UUID.randomUUID(), player.getUniqueId(), chestType, location, 0, ChestStatus.WAITING);
+                        int x = block.getX();
+                        int y = block.getY();
+                        int z = block.getZ();
+                        String world = block.getWorld().getName();
+                        SellChest sellChest = new SellChest(UUID.randomUUID(), player.getUniqueId(), chestType,
+                                world, x, y, z, 0, ChestStatus.WAITING);
                         sellChest.createHologram();
                         chestHandler.addLoadedChest(sellChest);
                         configHandler.sendMessageLang(player, "ChestPlaced");
