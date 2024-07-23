@@ -16,7 +16,7 @@ public class Config extends ConfigManager {
     @Override
     public void initializeDefaults() {
         addDefault(new ConfigPart("Prefix", "&8[&bLitSellChest&8] ", Collections.emptyList()));
-        addDefault(new ConfigPart("PriceHook", "Essentials", Arrays.asList("Usable values are", "EssentialsX, EconomyShopGUI, Essentials, ShopGUIPlus")));
+        addDefault(new ConfigPart("PriceHook", "Essentials", Arrays.asList("Usable values are", "EssentialsX, EconomyShopGUI, Essentials, ShopGUIPlus, AxGens")));
         addDefault(new ConfigPart("DebugMessages", false, Collections.singletonList("Do not enable it unless you are told to do")));
         addDefault(ConfigPart.of("PlaceLimits", Arrays.asList(
                         "litsellchest.placedefault:5",
