@@ -1,6 +1,6 @@
 default_menu:
   size: 27
-  name: '&8SellChest - Menu'
+  name: '&8SellChest - Main Menu'
   fillMenu:
     enabled: true
     fillItem: 'BLACK_STAINED_GLASS_PANE'

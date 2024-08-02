@@ -20,7 +20,7 @@ import java.util.Objects;
 public class SellChestCommand extends BaseCommand {
 
     @Default
-    public void defaultCmd(CommandSender sender) {
+    public void mainCommand(CommandSender sender) {
         if (sender instanceof Player) {
             GUIHandler guiHandler = GUIHandler.getInstance();
             DefaultMenu defaultMenu = guiHandler.getDefaultMenu();
@@ -47,7 +47,7 @@ public class SellChestCommand extends BaseCommand {
 
     @Permission("litsellchest.admin.give")
     @SubCommand("give")
-    public void giveCommand(CommandSender sender, Player target,
+    public void give(CommandSender sender, Player target,
                             @ArgName("chestType") @Suggestion("chest-types") String rawType,
                             @ArgName("amount") @Optional Integer amount) {
         ChestHandler chestHandler = ChestHandler.getInstance();
@@ -71,7 +71,7 @@ public class SellChestCommand extends BaseCommand {
 
     @Permission("litsellchest.admin.reload")
     @SubCommand("reload")
-    public void reloadCommand(CommandSender sender) {
+    public void reload(CommandSender sender) {
         ChestHandler chestHandler = ChestHandler.getInstance();
         ConfigHandler configHandler = ConfigHandler.getInstance();
 
