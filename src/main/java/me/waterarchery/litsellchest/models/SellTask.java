@@ -3,6 +3,8 @@ package me.waterarchery.litsellchest.models;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.hooks.PriceHook;
+import me.waterarchery.litlibs.version.Version;
+import me.waterarchery.litlibs.version.VersionHandler;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ChestHandler;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
@@ -95,8 +97,13 @@ public class SellTask extends BukkitRunnable {
                             type.getCollectRadius(),
                             type.getCollectRadius(),
                             type.getCollectRadius());
+
+                    VersionHandler versionHandler = LitSellChest.getInstance().getLibs().getVersionHandler();
+
                     Collection<Entity> nearbyItems = block.getWorld().getNearbyEntities(boundingBox,
-                            (entity) -> entity.getType() == EntityType.DROPPED_ITEM);
+                            (entity) -> versionHandler.isServerNewerThan(Version.v1_21)
+                                    ? entity.getType() == EntityType.ITEM
+                                    : entity.getType() == EntityType.valueOf("DROPPED_ITEM"));
                     for (Entity item : nearbyItems) {
                         ItemStack itemStack = ((Item) item).getItemStack().clone();
                         if (itemStack != null && itemStack.getType() != Material.AIR) {
