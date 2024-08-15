@@ -17,20 +17,17 @@ public class VaultHook {
         return instance;
     }
 
-    private VaultHook() {
-
-    }
+    private VaultHook() { }
 
     public boolean setupEconomy() {
-        if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
+        if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) return false;
+
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
+        if (rsp == null) return false;
+
         econ = rsp.getProvider();
-        return econ != null;
+
+        return true;
     }
 
     public Economy getEcon() { return econ; }
