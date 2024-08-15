@@ -4,6 +4,7 @@ import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.inventory.Action;
 import me.waterarchery.litlibs.inventory.ActionType;
+import me.waterarchery.litlibs.utils.CompatibilityUtil;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ChestHandler;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
@@ -26,12 +27,13 @@ public class ShopMenuListener implements Listener {
         Inventory inventory = event.getClickedInventory();
         ItemStack itemStack = event.getCurrentItem();
         Player player = (Player) event.getWhoClicked();
+        LitLibs libs = LitSellChest.getInstance().getLibs();
+
         if (inventory != null && itemStack != null && itemStack.getType() != Material.AIR) {
-            String menuTitle = event.getView().getTitle();
+            String menuTitle = CompatibilityUtil.getTitle(event);
             String title = ConfigHandler.getInstance().getGuiString("shop_menu", "shop_menu" + ".name");
             if (title.equalsIgnoreCase(menuTitle))
                 event.setCancelled(true);
-            LitLibs libs = LitSellChest.getInstance().getLibs();
             NBTAPIHook nbtapiHook = libs.getNBTAPIHook();
             Action action = nbtapiHook.getGUIAction(itemStack);
             VaultHook vaultHook = VaultHook.getInstance();

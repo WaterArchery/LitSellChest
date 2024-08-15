@@ -38,6 +38,7 @@ public final class LitSellChest extends JavaPlugin {
         registerCommands();
         registerEvents();
         registerHooks();
+        libs.reload();
     }
 
     @Override

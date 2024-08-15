@@ -3,6 +3,7 @@ package me.waterarchery.litsellchest.listeners;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.inventory.Action;
+import me.waterarchery.litlibs.utils.CompatibilityUtil;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.configuration.gui.YourChestsMenu;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
@@ -25,7 +26,7 @@ public class MainMenuListener implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         if (inventory != null && itemStack != null && itemStack.getType() != Material.AIR) {
-            String menuTitle = event.getView().getTitle();
+            String menuTitle = CompatibilityUtil.getTitle(event);
             String title = ConfigHandler.getInstance().getGuiString("default_menu", "default_menu" + ".name");
             if (title.equalsIgnoreCase(menuTitle))
                 event.setCancelled(true);
