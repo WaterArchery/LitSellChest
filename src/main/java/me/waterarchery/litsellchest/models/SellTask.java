@@ -68,6 +68,8 @@ public class SellTask extends BukkitRunnable {
     }
 
     public void handleSelling(SellChest sellChest) {
+        boolean isSellWithLore = LitSellChest.getInstance().getConfig().getBoolean("SellOnlyItemsWithLore");
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -118,7 +120,7 @@ public class SellTask extends BukkitRunnable {
                     if (totalPrice > 0) {
                         Economy econ = VaultHook.getInstance().getEcon();
                         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(sellChest.getOwner());
-                        double tax = totalPrice * sellChest.getChestType().getTax();
+                        double tax = totalPrice * (sellChest.getChestType().getTax() / 100);
                         totalPrice -= tax;
                         econ.depositPlayer(offlinePlayer, totalPrice);
                         if (offlinePlayer.isOnline()) {
