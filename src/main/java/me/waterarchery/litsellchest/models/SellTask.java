@@ -69,7 +69,7 @@ public class SellTask extends BukkitRunnable {
 
     public void handleSelling(SellChest sellChest) {
         boolean isSellWithLore = LitSellChest.getInstance().getConfig().getBoolean("SellOnlyItemsWithLore");
-
+        boolean notifyOnUnsellable = ConfigHandler.getInstance().getConfig().getYml().getBoolean("NotSellingNotification", true);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -78,6 +78,7 @@ public class SellTask extends BukkitRunnable {
                 ConfigHandler configHandler = ConfigHandler.getInstance();
 
                 double totalPrice = 0;
+                boolean hasInvalids = false;
                 Block block = sellChest.getLocation().getBlock();
                 BlockState state = block.getState();
                 if (state instanceof Chest) {
@@ -113,6 +114,8 @@ public class SellTask extends BukkitRunnable {
                             if (price > 0) {
                                 totalPrice += price;
                                 item.remove();
+                            } else {
+                                hasInvalids = true;
                             }
                         }
                     }
@@ -126,12 +129,16 @@ public class SellTask extends BukkitRunnable {
                         if (offlinePlayer.isOnline()) {
                             Player player = offlinePlayer.getPlayer();
                             SoundManager.sendSound(player, "SellSoundToPlayer");
-                            String mes = configHandler.getMessageLang("MoneyDeposited");
+                            String msg = configHandler.getMessageLang("MoneyDeposited");
                             String formatted = String.format("%,.2f", totalPrice);
-                            mes = mes.replace("%money%", formatted);
-                            mes = mes.replace("%tax%", tax + "");
-                            messageHandler.sendMessage(player, mes);
+                            msg = msg.replace("%money%", formatted);
+                            msg = msg.replace("%tax%", tax + "");
+                            messageHandler.sendMessage(player, msg);
                         }
+                    }
+                    if(hasInvalids && notifyOnUnsellable) {
+                        String msg = configHandler.getMessageLang("InvalidPriceOrFree");
+                        messageHandler.sendMessage(player,msg);
                     }
                 }
                 else {
