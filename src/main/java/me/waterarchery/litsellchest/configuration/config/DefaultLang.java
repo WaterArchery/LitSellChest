@@ -40,6 +40,7 @@ public class DefaultLang extends ConfigManager {
                 Collections.singletonList("This is called when on of the sub command arg is unknown")));
         addDefault(ConfigPart.noComment("NoPermission", "&7You don't &bhave permission &7to execute this command."));
         addDefault(ConfigPart.noComment("NoChestWithType", "&7There is &bno chest type &7with this name."));
+        addDefault(ConfigPart.noComment("InvalidPriceOrFree","&7There are items in the chest that are not sellable or have a 0 price"));
         addDefault(ConfigPart.noComment("ChestGaveTarget", "&7You received a &b%name%!"));
         addDefault(ConfigPart.noComment("ChestGaveAdmin", "&7You gave &b%name% &7to &b%player% &7successfully."));
         addDefault(ConfigPart.noComment("ChestPlaced", "&7You successfully placed your &bsell chest. &7It will start selling soon!"));
