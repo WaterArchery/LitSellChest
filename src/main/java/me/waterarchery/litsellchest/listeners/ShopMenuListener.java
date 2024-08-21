@@ -19,8 +19,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.joml.RoundingMode;
+
+import java.math.BigDecimal;
 
 public class ShopMenuListener implements Listener {
+
+    private double round(double value) {
+        if (decimals < 0) {decimals = 2;}
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(decimals, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 
     @EventHandler
     public void onShopMenuClick(InventoryClickEvent event) {
@@ -51,8 +61,11 @@ public class ShopMenuListener implements Listener {
                             player.getInventory().addItem(placeItem);
                             String msg = ConfigHandler.getInstance().getMessageLang("ChestBought")
                                     .replace("%money%", (balance - price) + "");
-                            String formatted = String.format("%,.2f", balance);
-                            msg.replace("%money%", formatted);
+                            if(LitSellChest.getInstance().getConfig().getBoolean("PaymentFormatting",false)) {
+                                BigDecimal bd = new BigDecimal(Double.toString(balance));
+                                bd = bd.setScale(LitSellChest.getInstance().getConfig().getInt("EcoPayRoundupDecimals",2), RoundingMode.HALF_UP);
+                                msg.replace("%money%",String.valueOf(bd.doubleValue()));
+                            }
                             libs.getMessageHandler().sendMessage(player, msg);
                             SoundManager.sendSound(player, "ChestReceive");
                         }
