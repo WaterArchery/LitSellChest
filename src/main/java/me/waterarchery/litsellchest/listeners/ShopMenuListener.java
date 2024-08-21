@@ -49,9 +49,11 @@ public class ShopMenuListener implements Listener {
                             economy.withdrawPlayer(player, price);
                             ItemStack placeItem = sellChestType.toItemStack();
                             player.getInventory().addItem(placeItem);
-                            String mes = ConfigHandler.getInstance().getMessageLang("ChestBought")
+                            String msg = ConfigHandler.getInstance().getMessageLang("ChestBought")
                                     .replace("%money%", (balance - price) + "");
-                            libs.getMessageHandler().sendMessage(player, mes);
+                            String formatted = String.format("%,.2f", balance);
+                            msg.replace("%money%", formatted);
+                            libs.getMessageHandler().sendMessage(player, msg);
                             SoundManager.sendSound(player, "ChestReceive");
                         }
                         else {
