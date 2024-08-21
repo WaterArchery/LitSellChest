@@ -24,23 +24,35 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
+import org.joml.RoundingMode;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 public class SellTask extends BukkitRunnable {
 
     private final int interval;
     private final LitLibs libs;
+    private int decimals;
+    private final boolean RoundingEnabled;
+    private final boolean checkForOnline;
+    private final boolean NotSellingNot;
 
     public SellTask(int interval, LitLibs libs) {
         this.interval = interval;
         this.libs = libs;
+        this.RoundingEnabled = LitSellChest.getInstance().getConfig().getBoolean("PaymentFormatting");
+        this.checkForOnline = LitSellChest.getInstance().getConfig().getBoolean("OnlyWorkOnlinePlayers");
+        this.NotSellingNot = LitSellChest.getInstance().getConfig().getBoolean("NotSellingNotification");
+        if(RoundingEnabled) {
+            this.decimals = LitSellChest.getInstance().getConfig().getInt("EcoPayRoundupDecimals");
+        }
     }
 
     @Override
     public void run() {
         ChestHandler chestHandler = ChestHandler.getInstance();
-        boolean checkForOnline = ConfigHandler.getInstance().getConfig().getYml().getBoolean("OnlyWorkOnlinePlayers", true);
+        //boolean checkForOnline = ConfigHandler.getInstance().getConfig().getYml().getBoolean("OnlyWorkOnlinePlayers", true);
 
         for (SellChest sellChest : chestHandler.getLoadedChests()) {
             if (sellChest.isLoaded() && (!checkForOnline || Bukkit.getPlayer(sellChest.getOwner()) != null)) {
@@ -67,9 +79,16 @@ public class SellTask extends BukkitRunnable {
         }
     }
 
+    private double round(double value) {
+        if (decimals < 0) {decimals = 2;}
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(decimals, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
     public void handleSelling(SellChest sellChest) {
-        boolean isSellWithLore = LitSellChest.getInstance().getConfig().getBoolean("SellOnlyItemsWithLore");
-        boolean notifyOnUnsellable = ConfigHandler.getInstance().getConfig().getYml().getBoolean("NotSellingNotification", true);
+        //boolean isSellWithLore = LitSellChest.getInstance().getConfig().getBoolean("SellOnlyItemsWithLore");
+        //boolean notifyOnUnsellable = ConfigHandler.getInstance().getConfig().getYml().getBoolean("NotSellingNotification", true);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -125,6 +144,9 @@ public class SellTask extends BukkitRunnable {
                         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(sellChest.getOwner());
                         double tax = totalPrice * (sellChest.getChestType().getTax() / 100);
                         totalPrice -= tax;
+                        if(RoundingEnabled) {
+                            totalPrice = round(totalPrice);
+                        }
                         econ.depositPlayer(offlinePlayer, totalPrice);
                         if (offlinePlayer.isOnline()) {
                             Player player = offlinePlayer.getPlayer();
@@ -136,7 +158,7 @@ public class SellTask extends BukkitRunnable {
                             messageHandler.sendMessage(player, msg);
                         }
                     }
-                    if(hasInvalids && notifyOnUnsellable) {
+                    if(hasInvalids && NotSellingNot) {
                         String msg = configHandler.getMessageLang("InvalidPriceOrFree");
                         messageHandler.sendMessage(player,msg);
                     }
