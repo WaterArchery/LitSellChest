@@ -68,8 +68,8 @@ public class SellTask extends BukkitRunnable {
     }
 
     public void handleSelling(SellChest sellChest) {
-        boolean isSellWithLore = LitSellChest.getInstance().getConfig().getBoolean("SellOnlyItemsWithLore");
         boolean notifyOnUnsellable = ConfigHandler.getInstance().getConfig().getYml().getBoolean("NotSellingNotification", true);
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -137,8 +137,12 @@ public class SellTask extends BukkitRunnable {
                         }
                     }
                     if(hasInvalids && notifyOnUnsellable) {
-                        String msg = configHandler.getMessageLang("InvalidPriceOrFree");
-                        messageHandler.sendMessage(player,msg);
+                        Player player = Bukkit.getPlayer(sellChest.getOwner());
+
+                        if (player != null) {
+                            String msg = configHandler.getMessageLang("InvalidPriceOrFree");
+                            messageHandler.sendMessage(player, msg);
+                        }
                     }
                 }
                 else {
