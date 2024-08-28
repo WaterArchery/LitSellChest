@@ -30,6 +30,8 @@ public class Config extends ConfigManager {
                 )));
         addDefault(new ConfigPart("SoundsEnabled", true, Collections.emptyList()));
         addDefault(new ConfigPart("NotSellingNotification", true, Collections.emptyList()));
+        addDefault(new ConfigPart("PaymentFormatting", true, Collections.emptyList()));
+        addDefault(new ConfigPart("EcoPayRoundupDecimals", 2, Collections.emptyList()));
         addDefault(new ConfigPart("SoundsVolume", 5, Collections.emptyList()));
         addDefault(ConfigPart.of("Sounds", null, Arrays.asList("You can completely disable all sounds above.", "",
                         "Please use only the sounds that in here", "https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html")));
