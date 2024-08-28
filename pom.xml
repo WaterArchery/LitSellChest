@@ -120,7 +120,7 @@
       <dependency>
           <groupId>com.github.WaterArchery</groupId>
           <artifactId>LitLibs</artifactId>
-          <version>1.1.1a</version>
+          <version>1.1.2</version>
           <scope>provided</scope>
       </dependency>
   </dependencies>
