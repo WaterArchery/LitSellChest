@@ -69,6 +69,10 @@
 
   <repositories>
       <repository>
+          <id>repo</id>
+          <url>https://repo.triumphteam.dev/snapshots/</url>
+      </repository>
+      <repository>
           <id>jitpack.io</id>
           <url>https://jitpack.io</url>
       </repository>
