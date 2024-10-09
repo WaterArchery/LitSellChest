@@ -154,9 +154,9 @@
 
       <!-- LitLibs -->
       <dependency>
-          <groupId>me.waterarchery</groupId>
+          <groupId>com.github.WaterArchery</groupId>
           <artifactId>LitLibs</artifactId>
-          <version>1.1.4</version>
+          <version>67a13c8e47</version>
           <scope>provided</scope>
       </dependency>
 
