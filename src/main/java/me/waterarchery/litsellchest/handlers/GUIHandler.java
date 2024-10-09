@@ -36,7 +36,7 @@ public class GUIHandler {
     private GUIHandler() { initialize(); }
 
     public void initialize() {
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
 
         ConfigManager defaultMenuFile = new ConfigManager(libs, "gui", "default_menu", false);
         defaultMenu = new DefaultMenu(defaultMenuFile, "default_menu",  libs);
@@ -55,7 +55,7 @@ public class GUIHandler {
 
     public ItemStack createItem(String menuName, String path){
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         MessageHandler messageHandler = libs.getMessageHandler();
         NBTAPIHook nbtapiHook = libs.getNBTAPIHook();
 

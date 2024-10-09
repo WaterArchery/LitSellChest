@@ -30,7 +30,7 @@ public class ChestPlaceListener implements Listener {
             ChestHandler chestHandler = ChestHandler.getInstance();
             SellChestType chestType = chestHandler.getType(itemStack);
             ConfigHandler configHandler = ConfigHandler.getInstance();
-            LitLibs libs = LitSellChest.getInstance().getLibs();
+            LitLibs libs = LitSellChest.getLibs();
 
             if (chestType != null) {
                 if (chestHandler.isLocationValid(block.getLocation())) {

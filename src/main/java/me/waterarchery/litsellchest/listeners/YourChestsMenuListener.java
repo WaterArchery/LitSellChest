@@ -31,7 +31,7 @@ public class YourChestsMenuListener implements Listener {
             String title = ConfigHandler.getInstance().getGuiString("your_chests", "your_chests" + ".name");
 
             if (title.equalsIgnoreCase(menuTitle)) event.setCancelled(true);
-            LitLibs libs = LitSellChest.getInstance().getLibs();
+            LitLibs libs = LitSellChest.getLibs();
             NBTAPIHook nbtapiHook = libs.getNBTAPIHook();
             Action action = nbtapiHook.getGUIAction(itemStack);
 

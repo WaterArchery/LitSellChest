@@ -39,7 +39,7 @@ public class SellChestType {
     public ItemStack toItemStack() {
         ConfigManager manager = ConfigHandler.getInstance().getChests();
         FileConfiguration yml = manager.getYml();
-        LitLibs lib = LitSellChest.getInstance().getLibs();
+        LitLibs lib = LitSellChest.getLibs();
         String rawMaterial = yml.getString(getId() + ".item.material", "STONE");
         XMaterial material = XMaterial.valueOf(rawMaterial);
         String name = manager.getString(getId() + ".item.name");

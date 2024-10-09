@@ -30,7 +30,7 @@ public class MainMenuListener implements Listener {
             String title = ConfigHandler.getInstance().getGuiString("default_menu", "default_menu" + ".name");
             if (title.equalsIgnoreCase(menuTitle))
                 event.setCancelled(true);
-            LitLibs libs = LitSellChest.getInstance().getLibs();
+            LitLibs libs = LitSellChest.getLibs();
             NBTAPIHook nbtapiHook = libs.getNBTAPIHook();
             GUIHandler guiHandler = GUIHandler.getInstance();
             Action action = nbtapiHook.getGUIAction(itemStack);

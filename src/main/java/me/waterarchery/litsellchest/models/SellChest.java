@@ -91,7 +91,7 @@ public class SellChest {
 
     public String statusToText() {
         FileConfiguration yml = ConfigHandler.getInstance().getLang().getYml();
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         MessageHandler mHandler = libs.getMessageHandler();
 
         String statusText = "";

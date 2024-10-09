@@ -49,7 +49,7 @@ public class ChestHandler {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         ConfigManager manager = configHandler.getConfig();
         int interval = manager.getYml().getInt("DefaultCheckInterval");
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         task = new SellTask(interval, libs);
         task.runTaskTimer(LitSellChest.getInstance(), 20, interval * 20L);
     }
@@ -69,7 +69,7 @@ public class ChestHandler {
     }
 
     public void loadChestTypes() {
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         ConfigHandler configHandler = ConfigHandler.getInstance();
         ConfigManager manager = configHandler.getChests();
         FileConfiguration yml = manager.getYml();
@@ -123,7 +123,7 @@ public class ChestHandler {
     }
 
     public @Nullable SellChestType getType(ItemStack itemStack) {
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         String rawType = libs.getNBTAPIHook().getNBT(itemStack, "SellChestType");
         if (rawType != null) {
             return getType(rawType);

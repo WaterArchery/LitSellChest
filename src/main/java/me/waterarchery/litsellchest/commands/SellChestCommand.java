@@ -28,7 +28,7 @@ public class SellChestCommand extends BaseCommand {
             SoundManager.sendSound((Player) sender, "DefaultMenuOpened");
         }
         else {
-            LitLibs libs = LitSellChest.getInstance().getLibs();
+            LitLibs libs = LitSellChest.getLibs();
             libs.getLogger().log("You can only use this command on in game.");
         }
     }
@@ -40,7 +40,7 @@ public class SellChestCommand extends BaseCommand {
             guiHandler.openShop((Player) sender);
         }
         else {
-            LitLibs libs = LitSellChest.getInstance().getLibs();
+            LitLibs libs = LitSellChest.getLibs();
             libs.getLogger().log("You can only use this command on in game.");
         }
     }

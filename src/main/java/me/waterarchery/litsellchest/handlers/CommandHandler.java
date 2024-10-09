@@ -87,7 +87,7 @@ public class CommandHandler {
     }
 
     public void registerMessages(BukkitCommandManager<CommandSender> manager) {
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         ConfigHandler configHandler = ConfigHandler.getInstance();
         MessageHandler mHandler = libs.getMessageHandler();
         ConfigManager lang = configHandler.getLang();

@@ -27,7 +27,7 @@ public class ShopMenuListener implements Listener {
         Inventory inventory = event.getClickedInventory();
         ItemStack itemStack = event.getCurrentItem();
         Player player = (Player) event.getWhoClicked();
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
 
         if (inventory != null && itemStack != null && itemStack.getType() != Material.AIR) {
             String menuTitle = CompatibilityUtil.getTitle(event);

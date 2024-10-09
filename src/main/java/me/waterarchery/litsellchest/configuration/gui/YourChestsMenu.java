@@ -22,7 +22,7 @@ import java.util.List;
 public class YourChestsMenu {
 
     public static Inventory generateInventory(Player player) {
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         MessageHandler mHandler = libs.getMessageHandler();
         ChestHandler chestHandler = ChestHandler.getInstance();
         NBTAPIHook nbtapiHook = libs.getNBTAPIHook();

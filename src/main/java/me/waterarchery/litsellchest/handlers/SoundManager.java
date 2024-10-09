@@ -10,7 +10,7 @@ public class SoundManager {
 
     public static void sendSound(Player player, String path) {
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         ConfigManager config = configHandler.getConfig();
         SoundHandler soundHandler = libs.getSoundHandler();
 

@@ -39,7 +39,7 @@ public class ConfigHandler {
         // for it.
         //
         // It is easier this way.
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         saveDefaultYaml("default_menu", "gui");
         saveDefaultYaml("shop_menu", "gui");
         saveDefaultYaml("your_chests", "gui");
@@ -92,12 +92,12 @@ public class ConfigHandler {
 
     public String getGuiString(String gui, String path){
         FileConfiguration yaml = getGUIYaml(gui);
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         return libs.getMessageHandler().updateColors(yaml.getString(path, path + "ERROR"));
     }
 
     public void sendMessageLang(CommandSender target, String path) {
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         libs.getMessageHandler().sendMessage(target, getMessageLang(path));
     }
 

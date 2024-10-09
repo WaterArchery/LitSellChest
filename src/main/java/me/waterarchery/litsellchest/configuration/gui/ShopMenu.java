@@ -30,7 +30,7 @@ public class ShopMenu extends InventoryImpl {
 
     public Inventory generateInventory(Player player) {
         GUIHandler guiHandler = GUIHandler.getInstance();
-        LitLibs libs = LitSellChest.getInstance().getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         MessageHandler mHandler = libs.getMessageHandler();
         ChestHandler chestHandler = ChestHandler.getInstance();
         ConfigManager configManager = new ConfigManager(libs, "gui", "shop_menu", false);
