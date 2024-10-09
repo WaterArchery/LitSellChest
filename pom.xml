@@ -6,7 +6,7 @@
 
   <groupId>me.waterarchery</groupId>
   <artifactId>LitSellChest</artifactId>
-  <version>1.0.10</version>
+  <version>1.1.0</version>
   <packaging>jar</packaging>
 
   <name>LitSellChest</name>
@@ -69,6 +69,10 @@
 
   <repositories>
       <repository>
+          <id>minecraft-repo</id>
+          <url>https://libraries.minecraft.net/</url>
+      </repository>
+      <repository>
           <id>repo</id>
           <url>https://repo.triumphteam.dev/snapshots/</url>
       </repository>
@@ -116,6 +120,14 @@
           <version>3.1.7</version>
       </dependency>
 
+      <!-- lombok -->
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.18.34</version>
+          <scope>provided</scope>
+      </dependency>
+
       <!--Vault -->
       <dependency>
           <groupId>com.github.MilkBowl</groupId>
@@ -124,10 +136,35 @@
           <scope>provided</scope>
       </dependency>
 
+      <!-- MySQL -->
       <dependency>
-          <groupId>com.github.WaterArchery</groupId>
+          <groupId>org.mariadb.jdbc</groupId>
+          <artifactId>mariadb-java-client</artifactId>
+          <version>3.4.1</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- HikariCP -->
+      <dependency>
+          <groupId>com.zaxxer</groupId>
+          <artifactId>HikariCP</artifactId>
+          <version>6.0.0</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- LitLibs -->
+      <dependency>
+          <groupId>me.waterarchery</groupId>
           <artifactId>LitLibs</artifactId>
-          <version>1.1.2</version>
+          <version>1.1.4</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- Mojang API -->
+      <dependency>
+          <groupId>com.mojang</groupId>
+          <artifactId>authlib</artifactId>
+          <version>6.0.54</version>
           <scope>provided</scope>
       </dependency>
   </dependencies>

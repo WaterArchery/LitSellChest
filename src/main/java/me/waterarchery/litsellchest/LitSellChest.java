@@ -1,9 +1,13 @@
 package me.waterarchery.litsellchest;
 
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
+import lombok.Getter;
+import lombok.Setter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.LitLibsPlugin;
-import me.waterarchery.litsellchest.database.SQLiteDatabase;
+import me.waterarchery.litsellchest.database.Database;
+import me.waterarchery.litsellchest.database.MySQL;
+import me.waterarchery.litsellchest.database.SQLite;
 import me.waterarchery.litsellchest.handlers.ChestHandler;
 import me.waterarchery.litsellchest.handlers.CommandHandler;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
@@ -14,6 +18,7 @@ import me.waterarchery.litsellchest.models.SellChest;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
@@ -22,10 +27,10 @@ import java.util.Date;
 
 public final class LitSellChest extends JavaPlugin {
 
-    private static LitLibs libs;
-    private static SQLiteDatabase database;
-    private static LitSellChest instance;
-    private BukkitCommandManager<CommandSender> manager;
+    @Getter private static LitLibs libs;
+    @Getter @Setter private static Database database;
+    @Getter private static LitSellChest instance;
+    @Getter private BukkitCommandManager<CommandSender> manager;
 
     @Override
     public void onEnable() {
@@ -62,7 +67,26 @@ public final class LitSellChest extends JavaPlugin {
     }
 
     public void createDatabase() {
-        database = new SQLiteDatabase(libs);
+        FileConfiguration yml = this.getConfig();
+        String databaseType = yml.getString("Database.DatabaseType", "sqlite");
+
+        Database database;
+        if (databaseType.equalsIgnoreCase("sqlite")) {
+            database = new SQLite(instance);
+            database.initialize();
+            LitSellChest.setDatabase(database);
+        }
+        else if (databaseType.equalsIgnoreCase("mysql")) {
+            database = new MySQL(instance);
+            database.initialize();
+            LitSellChest.setDatabase(database);
+        }
+        else {
+            LitSellChest.getLibs().getLogger().log("You made a mistake while configuring DatabaseType. Please set it to SQLite or MySQL");
+            instance.getPluginLoader().disablePlugin(instance);
+            return;
+        }
+
         long startTime = Date.from(Instant.now()).getTime();
         int total = database.loadChests();
         long finishTime = Date.from(Instant.now()).getTime();
@@ -96,13 +120,5 @@ public final class LitSellChest extends JavaPlugin {
         new Metrics(LitLibsPlugin.getInstance(), 22215);
         libs.getHookHandler();
     }
-
-    public LitLibs getLibs() { return libs; }
-
-    public static LitSellChest getInstance() { return instance; }
-
-    public BukkitCommandManager<CommandSender> getManager() { return manager; }
-
-    public static SQLiteDatabase getDatabase() { return database; }
 
 }

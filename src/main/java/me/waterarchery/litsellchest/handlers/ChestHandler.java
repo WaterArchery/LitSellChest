@@ -3,7 +3,7 @@ package me.waterarchery.litsellchest.handlers;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litsellchest.LitSellChest;
-import me.waterarchery.litsellchest.database.SQLiteDatabase;
+import me.waterarchery.litsellchest.database.Database;
 import me.waterarchery.litsellchest.models.ChestStatus;
 import me.waterarchery.litsellchest.models.SellChest;
 import me.waterarchery.litsellchest.models.SellChestType;
@@ -212,7 +212,7 @@ public class ChestHandler {
         loadedChests.remove(chest);
 
         // Deleting from database
-        SQLiteDatabase database = LitSellChest.getDatabase();
+        Database database = LitSellChest.getDatabase();
         database.deleteChest(chest.getUUID());
 
         if (dropItem) {

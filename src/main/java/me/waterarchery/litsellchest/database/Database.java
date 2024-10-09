@@ -1,7 +1,5 @@
 package me.waterarchery.litsellchest.database;
 
-import me.waterarchery.litlibs.LitLibs;
-import me.waterarchery.litlibs.database.SQLite;
 import me.waterarchery.litlibs.logger.Logger;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ChestHandler;
@@ -9,19 +7,18 @@ import me.waterarchery.litsellchest.models.ChestStatus;
 import me.waterarchery.litsellchest.models.SellChest;
 import me.waterarchery.litsellchest.models.SellChestType;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
-public class SQLiteDatabase extends SQLite {
+public abstract class Database {
+
+    LitSellChest instance;
+    Connection connection;
 
     private static final ExecutorService threadPool = Executors.newFixedThreadPool(200);
     public static final String TABLE_NAME = "chests";
@@ -38,17 +35,33 @@ public class SQLiteDatabase extends SQLite {
             "`status` varchar(32) NOT NULL" +
             ");";
 
+    public Database(LitSellChest instance){
+        this.instance = instance;
+    }
 
-    public SQLiteDatabase(LitLibs litLibs) {
-        super(litLibs);
+    public abstract Connection getSQLConnection();
+
+    public void load() {
+        connection = getSQLConnection();
+        try {
+            Statement s = connection.createStatement();
+            s.executeUpdate(TABLE_TOKEN);
+            s.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         initialize();
     }
 
-    public void initialize() {
-        ArrayList<String> tokens = new ArrayList<>();
-        tokens.add(TABLE_TOKEN);
-
-        createDatabase(tokens);
+    public void initialize(){
+        connection = getSQLConnection();
+        try (PreparedStatement vac = connection.prepareStatement("vacuum")) {
+            vac.execute();
+        } catch (SQLException ex) {
+            instance.getLogger().log(Level.SEVERE, "Unable to retreive connection", ex);
+        }
     }
 
     public void saveChest(SellChest chest) {
@@ -135,7 +148,7 @@ public class SQLiteDatabase extends SQLite {
         } catch (SQLException ex) {
             if (ex.getMessage().contains("no such column:")) {
                 try {
-                    Bukkit.getConsoleSender().sendMessage("§c[IslandNPC] Error in NPC: " + rs.getString("id"));
+                    Bukkit.getConsoleSender().sendMessage("§c[LitSellChest] Error in chest: " + rs.getString("id"));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -155,17 +168,13 @@ public class SQLiteDatabase extends SQLite {
     public void shutdownPool(){
         try {
             Bukkit.getConsoleSender().sendMessage("§7[§bLitSellChest§7] §fShutting down thread pool");
-            getPool().shutdownNow();
-            boolean closed = getPool().awaitTermination(20, TimeUnit.SECONDS);
+            threadPool.shutdownNow();
+            boolean closed = threadPool.awaitTermination(20, TimeUnit.SECONDS);
             if (!closed)
                 Bukkit.getConsoleSender().sendMessage("§7[§bLitSellChest§7] §cShutting down thread pool failed");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static ExecutorService getPool() {
-        return threadPool;
     }
 
 }

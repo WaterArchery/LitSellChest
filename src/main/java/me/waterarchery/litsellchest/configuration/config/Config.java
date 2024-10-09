@@ -47,6 +47,13 @@ public class Config extends ConfigManager {
         addDefault(new ConfigPart("Sounds.InventoryOpened", "ENTITY_PLAYER_LEVELUP", Collections.emptyList()));
         addDefault(new ConfigPart("DefaultCheckInterval", 2, Collections.singletonList("It will check all chests in every 2 seconds")));
         addDefault(new ConfigPart("OnlyWorkOnlinePlayers", true, Arrays.asList("If you make this to true, sell chests only works for online players", "If you make this to false, sell chests work even player is offline")));
+
+        addDefault(ConfigPart.of("Database.DatabaseType", "sqlite", Arrays.asList("You can use these options:", "MySQL", "SQLite")));
+        addDefault(ConfigPart.noComment("Database.MySQL.host", "localhost"));
+        addDefault(ConfigPart.noComment("Database.MySQL.port", "3306"));
+        addDefault(ConfigPart.noComment("Database.MySQL.database", "db"));
+        addDefault(ConfigPart.noComment("Database.MySQL.user", "user"));
+        addDefault(ConfigPart.noComment("Database.MySQL.password", "mypassword"));
     }
 
 }

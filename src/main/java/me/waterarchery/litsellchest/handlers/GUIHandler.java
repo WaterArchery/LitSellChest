@@ -5,8 +5,9 @@ import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.inventory.ActionType;
-import me.waterarchery.litlibs.libs.skullcreator.SkullCreator;
 import me.waterarchery.litlibs.libs.xseries.XMaterial;
+import me.waterarchery.litlibs.libs.xseries.profiles.builder.XSkull;
+import me.waterarchery.litlibs.libs.xseries.profiles.objects.Profileable;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.configuration.gui.DefaultMenu;
 import me.waterarchery.litsellchest.configuration.gui.ShopMenu;
@@ -98,7 +99,7 @@ public class GUIHandler {
             }
         }
         else {
-            itemStack = SkullCreator.itemFromBase64(mat.replace("HEAD-", ""));
+            itemStack = XSkull.createItem().profile(Profileable.detect(mat.replace("HEAD-", ""))).apply();
         }
         if (itemStack == null) {
             itemStack = new ItemStack(Material.STONE);

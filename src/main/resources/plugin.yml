@@ -3,5 +3,8 @@ version: '${project.version}'
 main: me.waterarchery.litsellchest.LitSellChest
 api-version: '1.13'
 author: WaterArchery
+libraries:
+  - org.mariadb.jdbc:mariadb-java-client:3.4.1
+  - com.zaxxer:HikariCP:6.0.0
 depend:
   - LitLibs

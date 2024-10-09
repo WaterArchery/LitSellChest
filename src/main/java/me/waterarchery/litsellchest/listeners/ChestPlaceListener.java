@@ -2,14 +2,13 @@ package me.waterarchery.litsellchest.listeners;
 
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litsellchest.LitSellChest;
-import me.waterarchery.litsellchest.database.SQLiteDatabase;
+import me.waterarchery.litsellchest.database.Database;
 import me.waterarchery.litsellchest.handlers.ChestHandler;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
 import me.waterarchery.litsellchest.handlers.SoundManager;
 import me.waterarchery.litsellchest.models.ChestStatus;
 import me.waterarchery.litsellchest.models.SellChest;
 import me.waterarchery.litsellchest.models.SellChestType;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,7 +47,7 @@ public class ChestPlaceListener implements Listener {
                         chestHandler.addLoadedChest(sellChest);
                         configHandler.sendMessageLang(player, "ChestPlaced");
                         SoundManager.sendSound(player, "ChestPlace");
-                        SQLiteDatabase database = LitSellChest.getDatabase();
+                        Database database = LitSellChest.getDatabase();
                         database.saveChest(sellChest);
                     }
                     else {
