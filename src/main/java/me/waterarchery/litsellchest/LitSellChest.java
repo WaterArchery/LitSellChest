@@ -87,6 +87,8 @@ public final class LitSellChest extends JavaPlugin {
             return;
         }
 
+        database.load();
+
         long startTime = Date.from(Instant.now()).getTime();
         int total = database.loadChests();
         long finishTime = Date.from(Instant.now()).getTime();
