@@ -14,6 +14,7 @@
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <server.directory>${user.home}\Desktop\Testserver\plugins</server.directory>
     </properties>
 
   <build>
@@ -35,7 +36,7 @@
               <relocations>
               </relocations>
               <minimizeJar>false</minimizeJar>
-              <outputFile>C:\Users\smfar\Desktop\Sunucular\test117\plugins/LitSellChest.jar</outputFile>
+              <outputFile>${server.directory}/LitLibs.jar</outputFile>
           </configuration>
         <executions>
           <execution>
