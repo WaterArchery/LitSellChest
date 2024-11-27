@@ -1,5 +1,6 @@
 package me.waterarchery.litsellchest.handlers;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litsellchest.LitSellChest;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
 public class ChestHandler {
 
     private final List<SellChestType> chestTypes = new ArrayList<>();
@@ -233,10 +235,6 @@ public class ChestHandler {
 
     public void addLoadedChest(SellChest chest) {
         loadedChests.add(chest);
-    }
-
-    public List<SellChestType> getChestTypes() {
-        return chestTypes;
     }
 
     public List<SellChest> getLoadedChests() {

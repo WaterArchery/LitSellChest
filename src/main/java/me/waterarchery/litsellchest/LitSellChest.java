@@ -36,13 +36,16 @@ public final class LitSellChest extends JavaPlugin {
     public void onEnable() {
         instance = this;
         libs = LitLibs.of(getInstance());
+
         ConfigHandler.getInstance();
         ChestHandler.getInstance();
+
         GUIHandler.getInstance();
         createDatabase();
         registerCommands();
         registerEvents();
         registerHooks();
+
         libs.reload();
     }
 
