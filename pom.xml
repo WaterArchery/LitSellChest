@@ -36,7 +36,7 @@
               <relocations>
               </relocations>
               <minimizeJar>false</minimizeJar>
-              <outputFile>${server.directory}/LitLibs.jar</outputFile>
+              <outputFile>${server.directory}/LitSellChest.jar</outputFile>
           </configuration>
         <executions>
           <execution>
