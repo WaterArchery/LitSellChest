@@ -1,5 +1,6 @@
 package me.waterarchery.litsellchest.handlers;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.handlers.MessageHandler;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Getter
 public class GUIHandler {
 
     private static GUIHandler instance;
@@ -108,6 +110,4 @@ public class GUIHandler {
         return itemStack;
     }
 
-    public DefaultMenu getDefaultMenu() { return defaultMenu; }
-    public ShopMenu getShopMenu() { return shopMenu; }
 }

@@ -42,6 +42,9 @@ public class ShopMenu extends InventoryImpl {
         String name = yaml.getString(menuName + ".name");
         name = mHandler.updateColors(name);
 
+        int playerChestLimit = chestHandler.getMaxPlaceableChests(player);
+        int playerChestCount = chestHandler.getChestCount(player);
+
         Inventory shopGUI = Bukkit.createInventory(null, size, name);
         for (String path : yaml.getConfigurationSection(menuName + ".items").getKeys(false)) {
             ItemStack itemStack = guiHandler.createItem(menuName, path);
@@ -62,6 +65,8 @@ public class ShopMenu extends InventoryImpl {
                 part = part.replace("%sellMultiplier%", sellMultiplier + "");
                 part = part.replace("%sellInterval%", sellInterval + "");
                 part = part.replace("%price%", price + "");
+                part = part.replace("%playerLimit%", playerChestLimit + "");
+                part = part.replace("%playerCount%", playerChestCount + "");
                 newLore.add(part);
             }
             ItemMeta meta = itemStack.getItemMeta();

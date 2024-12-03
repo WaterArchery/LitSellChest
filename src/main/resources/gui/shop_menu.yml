@@ -22,6 +22,7 @@ shop_menu:
         - '&7'
         - '&b&lBUY NOW'
         - '&7Price: &b%price%'
+        - '&7Chest Place Limit: &b%playerLimit%/playerCount'
         - '&7Click here to &bbuy now!'
     chest2:
       slot: 13
@@ -40,6 +41,7 @@ shop_menu:
         - '&7'
         - '&b&lBUY NOW'
         - '&7Price: &b%price%'
+        - '&7Chest Place Limit: &b%playerLimit%/playerCount'
         - '&7Click here to &bbuy now!'
     chest3:
       slot: 15
@@ -58,4 +60,5 @@ shop_menu:
         - '&7'
         - '&b&lBUY NOW'
         - '&7Price: &b%price%'
+        - '&7Chest Place Limit: &b%playerLimit%/playerCount'
         - '&7Click here to &bbuy now!'
