@@ -69,6 +69,7 @@ public class SellTask extends BukkitRunnable {
 
     public void handleSelling(SellChest sellChest) {
         boolean notifyOnUnsellable = ConfigHandler.getInstance().getConfig().getYml().getBoolean("NotSellingNotification", true);
+        boolean disableSellMessage = ConfigHandler.getInstance().getConfig().getYml().getBoolean("DisableChestSellMessage", true);
 
         new BukkitRunnable() {
             @Override
@@ -126,7 +127,7 @@ public class SellTask extends BukkitRunnable {
                         double tax = totalPrice * (sellChest.getChestType().getTax() / 100);
                         totalPrice -= tax;
                         econ.depositPlayer(offlinePlayer, totalPrice);
-                        if (offlinePlayer.isOnline()) {
+                        if (!disableSellMessage && offlinePlayer.isOnline()) {
                             Player player = offlinePlayer.getPlayer();
                             SoundManager.sendSound(player, "SellSoundToPlayer");
                             String msg = configHandler.getMessageLang("MoneyDeposited");

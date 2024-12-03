@@ -29,6 +29,7 @@ public class Config extends ConfigManager {
                         "they can place 10 sell chests"
                 )));
         addDefault(new ConfigPart("SoundsEnabled", true, Collections.emptyList()));
+        addDefault(new ConfigPart("DisableChestSellMessage", false, Collections.emptyList()));
         addDefault(new ConfigPart("NotSellingNotification", true, Collections.emptyList()));
         addDefault(new ConfigPart("SoundsVolume", 5, Collections.emptyList()));
         addDefault(ConfigPart.of("Sounds", null, Arrays.asList("You can completely disable all sounds above.", "",
