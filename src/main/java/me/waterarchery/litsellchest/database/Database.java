@@ -20,7 +20,7 @@ public abstract class Database {
     LitSellChest instance;
     Connection connection;
 
-    private static final ExecutorService threadPool = Executors.newFixedThreadPool(200);
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(10);
     public static final String TABLE_NAME = "chests";
 
     public static final String TABLE_TOKEN = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
@@ -67,10 +67,12 @@ public abstract class Database {
     public void saveChest(SellChest chest) {
         Runnable runnable = () -> {
             Connection connection = getSQLConnection();
-            String query = "REPLACE INTO " + TABLE_NAME + " (id,owner,x,y,z,world,money,chestType,status) VALUES(?,?,?,?,?,?,?,?,?)";
-            Logger logger = LitSellChest.getInstance().getLibs().getLogger();
+            String query = "REPLACE INTO " + TABLE_NAME + " (id, owner, x, y, z, world, money, chestType, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Logger logger = LitSellChest.getLibs().getLogger();
+
             try {
                 PreparedStatement ps =connection.prepareStatement(query);
+
                 ps.setString(1, chest.getUUID().toString());
                 ps.setString(2, chest.getOwner().toString());
                 ps.setInt(3, chest.getLocation().getBlockX());
@@ -80,6 +82,7 @@ public abstract class Database {
                 ps.setDouble(7, chest.getMoney());
                 ps.setString(8, chest.getChestType().getId());
                 ps.setString(9, chest.getStatus().name());
+
                 ps.executeUpdate();
             }
             catch (SQLException ex) {

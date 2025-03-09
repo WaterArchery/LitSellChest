@@ -4,6 +4,7 @@ import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
 import me.waterarchery.litlibs.inventory.ActionType;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ChestHandler;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
@@ -32,7 +33,7 @@ public class YourChestsMenu {
 
         int size = yaml.getInt(menuName + ".size");
         String name = yaml.getString(menuName + ".name");
-        name = mHandler.updateColors(name);
+        name = ChatUtils.colorizeLegacy(name);
 
         Inventory inventory = Bukkit.createInventory(null, size, name);
         List<SellChest> chests = chestHandler.getPlayerChests(player);
@@ -43,12 +44,12 @@ public class YourChestsMenu {
 
             ItemStack itemStack = new ItemStack(Material.valueOf(rawMaterial));
             ItemMeta meta = itemStack.getItemMeta();
-            itemName = mHandler.updateColors(itemName);
+            itemName = ChatUtils.colorizeLegacy(itemName);
             meta.setDisplayName(itemName);
 
             List<String> lore = new ArrayList<>();
             for (String line : rawLore) {
-                line = mHandler.updateColors(line);
+                line = ChatUtils.colorizeLegacy(line);
                 line = line.replace("%world%", chest.getLocation().getWorld().getName());
                 line = line.replace("%x%", chest.getLocation().getBlockX() + "");
                 line = line.replace("%y%", chest.getLocation().getBlockY() + "");

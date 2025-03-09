@@ -3,6 +3,7 @@ package me.waterarchery.litsellchest.models;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.hooks.HologramHook;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
 import org.bukkit.Bukkit;
@@ -91,8 +92,6 @@ public class SellChest {
 
     public String statusToText() {
         FileConfiguration yml = ConfigHandler.getInstance().getLang().getYml();
-        LitLibs libs = LitSellChest.getLibs();
-        MessageHandler mHandler = libs.getMessageHandler();
 
         String statusText = "";
         if (status == ChestStatus.WAITING)
@@ -102,7 +101,7 @@ public class SellChest {
         else if (status == ChestStatus.STOPPED)
             statusText = yml.getString("Status.stopped");
 
-        return mHandler.updateColors(statusText);
+        return ChatUtils.colorizeLegacy(statusText);
     }
 
     public boolean isLoaded() {

@@ -3,6 +3,7 @@ package me.waterarchery.litsellchest.models;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.libs.xseries.XMaterial;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -51,7 +52,7 @@ public class SellChestType {
             part = part.replace("%tax%", getTax() + "");
             part = part.replace("%sellMultiplier%", getSellMultiplier() + "");
             part = part.replace("%sellInterval%", getSellInterval() + "");
-            part = LitSellChest.getInstance().getLibs().getMessageHandler().updateColors(part);
+            part = ChatUtils.colorizeLegacy(part);
             lore.add(part);
         }
 

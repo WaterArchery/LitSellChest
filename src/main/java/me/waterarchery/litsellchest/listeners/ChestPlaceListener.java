@@ -46,9 +46,9 @@ public class ChestPlaceListener implements Listener {
                         sellChest.createHologram();
                         chestHandler.addLoadedChest(sellChest);
                         configHandler.sendMessageLang(player, "ChestPlaced");
-                        SoundManager.sendSound(player, "ChestPlace");
                         Database database = LitSellChest.getDatabase();
                         database.saveChest(sellChest);
+                        SoundManager.sendSound(player, "ChestPlace");
                     }
                     else {
                         String mes = configHandler.getMessageLang("LimitReached").replace("%current%", chestCount + "")

@@ -2,6 +2,7 @@ package me.waterarchery.litsellchest.handlers;
 
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.configuration.config.Config;
 import me.waterarchery.litsellchest.configuration.config.DefaultLang;
@@ -92,8 +93,7 @@ public class ConfigHandler {
 
     public String getGuiString(String gui, String path){
         FileConfiguration yaml = getGUIYaml(gui);
-        LitLibs libs = LitSellChest.getLibs();
-        return libs.getMessageHandler().updateColors(yaml.getString(path, path + "ERROR"));
+        return ChatUtils.colorizeLegacy(yaml.getString(path, path + "ERROR"));
     }
 
     public void sendMessageLang(CommandSender target, String path) {

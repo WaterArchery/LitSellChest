@@ -6,6 +6,7 @@ import me.waterarchery.litlibs.handlers.InventoryHandler;
 import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.inventory.ActionType;
 import me.waterarchery.litlibs.inventory.InventoryImpl;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ChestHandler;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
@@ -40,7 +41,7 @@ public class ShopMenu extends InventoryImpl {
 
         int size = yaml.getInt(menuName + ".size");
         String name = yaml.getString(menuName + ".name");
-        name = mHandler.updateColors(name);
+        name = ChatUtils.colorizeLegacy(name);
 
         int playerChestLimit = chestHandler.getMaxPlaceableChests(player);
         int playerChestCount = chestHandler.getChestCount(player);
@@ -59,7 +60,7 @@ public class ShopMenu extends InventoryImpl {
 
             ArrayList<String> newLore = new ArrayList<>();
             for (String part : oldLore) {
-                part = mHandler.updateColors(part);
+                part = ChatUtils.colorizeLegacy(part);
                 part = part.replace("%name%", chestName);
                 part = part.replace("%tax%", tax + "");
                 part = part.replace("%sellMultiplier%", sellMultiplier + "");

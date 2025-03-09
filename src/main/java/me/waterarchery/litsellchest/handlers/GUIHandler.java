@@ -9,6 +9,7 @@ import me.waterarchery.litlibs.inventory.ActionType;
 import me.waterarchery.litlibs.libs.xseries.XMaterial;
 import me.waterarchery.litlibs.libs.xseries.profiles.builder.XSkull;
 import me.waterarchery.litlibs.libs.xseries.profiles.objects.Profileable;
+import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.configuration.gui.DefaultMenu;
 import me.waterarchery.litsellchest.configuration.gui.ShopMenu;
@@ -72,7 +73,7 @@ public class GUIHandler {
             itemMeta.setCustomModelData(configHandler.getGUIYaml(menuName).getInt(menuName + ".items." + path + ".customModelData"));
         }
         for (String part : tempLore) {
-            part = messageHandler.updateColors(part);
+            part = ChatUtils.colorizeLegacy(part);
             lore.add(part.replace("&", "§"));
         }
         itemMeta.setDisplayName(name);
