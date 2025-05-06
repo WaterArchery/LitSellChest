@@ -1,6 +1,6 @@
 default_menu:
   size: 27
-  name: '&8SellChest - Main Menu'
+  name: '<dark_gray>SellChest - Main Menu'
   fillMenu:
     enabled: true
     fillItem: 'BLACK_STAINED_GLASS_PANE'
@@ -8,16 +8,16 @@ default_menu:
     open_shop:
       slot: 12
       material: CHEST
-      name: '&bOpen Shop'
+      name: '<#47D4FF>Open Shop'
       lore:
         - ''
-        - '&7You can click here to'
-        - '&7open &bChest Shop.'
+        - '<#CCFFEE>You can click here to'
+        - '<#CCFFEE>open <#47D4FF>Chest Shop.'
     your_chests:
       slot: 14
       material: ENDER_CHEST
-      name: '&bYour Sell Chests'
+      name: '<#47D4FF>Your Sell Chests'
       lore:
         - ''
-        - '&7You can click here to'
-        - '&7open &byour Sell Chests.'
+        - '<#CCFFEE>You can click here to'
+        - '<#CCFFEE>open <#47D4FF>your Sell Chests.'

@@ -1,5 +1,5 @@
 chest1:
-  name: '&eSell Chest #1'
+  name: '<#47D4FF>Sell Chest #1'
   price: 1000
   tax: 0.1
   sellMultiplier: 1.0
@@ -10,17 +10,17 @@ chest1:
     material: 'CHEST'
     customModelData: -9999
     lore:
-      - '&7'
-      - '&b&lINFO'
-      - '&7You can place your items'
-      - '&7inside this chest to sell them.'
-      - '&7'
-      - '&b&lPROPERTIES'
-      - '&7Tax: &b%tax%%'
-      - '&7Sell Multiplier: &b%sellMultiplier%'
-      - '&7Interval: &b%sellInterval%s'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>INFO'
+      - '<#CCFFEE>You can place your items'
+      - '<#CCFFEE>inside this chest to sell them.'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>PROPERTIES'
+      - '<#CCFFEE>Tax: <#47D4FF>%tax%%'
+      - '<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%'
+      - '<#CCFFEE>Interval: <#47D4FF>%sellInterval%s'
 chest2:
-  name: '&eSell Chest #2'
+  name: '<#47D4FF>Sell Chest #2'
   price: 5000
   tax: 0.05
   sellMultiplier: 1.05
@@ -31,17 +31,17 @@ chest2:
     material: 'CHEST'
     customModelData: -9999
     lore:
-      - '&7'
-      - '&b&lINFO'
-      - '&7You can place your items'
-      - '&7inside this chest to sell them.'
-      - '&7'
-      - '&b&lPROPERTIES'
-      - '&7Tax: &b%tax%%'
-      - '&7Sell Multiplier: &b%sellMultiplier%'
-      - '&7Interval: &b%sellInterval%s'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>INFO'
+      - '<#CCFFEE>You can place your items'
+      - '<#CCFFEE>inside this chest to sell them.'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>PROPERTIES'
+      - '<#CCFFEE>Tax: <#47D4FF>%tax%%'
+      - '<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%'
+      - '<#CCFFEE>Interval: <#47D4FF>%sellInterval%s'
 chest3:
-  name: '&eSell Chest #3'
+  name: '<#47D4FF>Sell Chest #3'
   price: 10000
   tax: 0
   sellMultiplier: 1.1
@@ -52,12 +52,12 @@ chest3:
     material: 'CHEST'
     customModelData: -9999
     lore:
-      - '&7'
-      - '&b&lINFO'
-      - '&7You can place your items'
-      - '&7inside this chest to sell them.'
-      - '&7'
-      - '&b&lPROPERTIES'
-      - '&7Tax: &b%tax%%'
-      - '&7Sell Multiplier: &b%sellMultiplier%'
-      - '&7Interval: &b%sellInterval%s'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>INFO'
+      - '<#CCFFEE>You can place your items'
+      - '<#CCFFEE>inside this chest to sell them.'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>PROPERTIES'
+      - '<#CCFFEE>Tax: <#47D4FF>%tax%%'
+      - '<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%'
+      - '<#CCFFEE>Interval: <#47D4FF>%sellInterval%s'

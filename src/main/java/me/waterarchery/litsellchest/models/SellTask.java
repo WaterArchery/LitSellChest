@@ -130,7 +130,7 @@ public class SellTask extends BukkitRunnable {
                         if (!disableSellMessage && offlinePlayer.isOnline()) {
                             Player player = offlinePlayer.getPlayer();
                             SoundManager.sendSound(player, "SellSoundToPlayer");
-                            String msg = configHandler.getMessageLang("MoneyDeposited");
+                            String msg = configHandler.getRawMessageLang("MoneyDeposited");
                             String formatted = String.format("%,.2f", totalPrice);
                             msg = msg.replace("%money%", formatted);
                             msg = msg.replace("%tax%", tax + "");
@@ -141,7 +141,7 @@ public class SellTask extends BukkitRunnable {
                         Player player = Bukkit.getPlayer(sellChest.getOwner());
 
                         if (player != null) {
-                            String msg = configHandler.getMessageLang("InvalidPriceOrFree");
+                            String msg = configHandler.getRawMessageLang("InvalidPriceOrFree");
                             messageHandler.sendMessage(player, msg);
                         }
                     }

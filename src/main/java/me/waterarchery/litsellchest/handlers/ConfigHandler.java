@@ -1,5 +1,6 @@
 package me.waterarchery.litsellchest.handlers;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.utils.ChatUtils;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@Getter
 public class ConfigHandler {
 
     private ConfigManager config;
@@ -97,26 +99,23 @@ public class ConfigHandler {
     }
 
     public void sendMessageLang(CommandSender target, String path) {
+        ConfigHandler configHandler = ConfigHandler.getInstance();
+        ConfigManager manager = configHandler.getLang();
         LitLibs libs = LitSellChest.getLibs();
-        libs.getMessageHandler().sendMessage(target, getMessageLang(path));
+
+        libs.getMessageHandler().sendMessage(target, libs.getMessageHandler().getPrefix() + manager.getYml().getString(path));
+    }
+
+    public String getRawMessageLang(String path) {
+        ConfigHandler configHandler = ConfigHandler.getInstance();
+        ConfigManager manager = configHandler.getLang();
+        LitLibs libs = LitSellChest.getLibs();
+
+        return libs.getMessageHandler().getPrefix() + manager.getYml().getString(path);
     }
 
     public String getMessageLang(String path) {
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        ConfigManager manager = configHandler.getLang();
-        return manager.getString(path);
-    }
-
-    public ConfigManager getConfig() {
-        return config;
-    }
-
-    public ConfigManager getLang() {
-        return lang;
-    }
-
-    public ConfigManager getChests() {
-        return chests;
+        return ChatUtils.colorizeLegacy(getRawMessageLang(path));
     }
 
 }

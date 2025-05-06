@@ -1,9 +1,9 @@
 package me.waterarchery.litsellchest.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.waterarchery.litlibs.LitLibs;
-import me.waterarchery.litlibs.handlers.MessageHandler;
 import me.waterarchery.litlibs.hooks.HologramHook;
-import me.waterarchery.litlibs.utils.ChatUtils;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.handlers.ConfigHandler;
 import org.bukkit.Bukkit;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class SellChest {
 
     private final UUID uuid;
@@ -47,8 +49,7 @@ public class SellChest {
     public void createHologram() {
         if (!isLoaded()) return;
 
-        LitSellChest litSellChest = LitSellChest.getInstance();
-        LitLibs libs = litSellChest.getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         HologramHook hologramHook = libs.getHookHandler().getHologramHook();
         List<String> lines = getHologramLines();
         hologramHook.createHologram(getHologramLocation(), lines);
@@ -57,8 +58,7 @@ public class SellChest {
     public void deleteHologram() {
         if (!isLoaded()) return;
 
-        LitSellChest litSellChest = LitSellChest.getInstance();
-        LitLibs libs = litSellChest.getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         HologramHook hologramHook = libs.getHookHandler().getHologramHook();
         hologramHook.deleteHologram(getHologramLocation());
     }
@@ -66,8 +66,7 @@ public class SellChest {
     public void updateHologram() {
         if (!isLoaded()) return;
 
-        LitSellChest litSellChest = LitSellChest.getInstance();
-        LitLibs libs = litSellChest.getLibs();
+        LitLibs libs = LitSellChest.getLibs();
         HologramHook hologramHook = libs.getHookHandler().getHologramHook();
         hologramHook.updateHologram(getHologramLocation(), getHologramLines());
     }
@@ -81,7 +80,7 @@ public class SellChest {
             line = line.replace("%remainingTime%", getRemainingTime() + "")
                     .replace("%money%", getMoney() + "")
                     .replace("%status%", statusToText())
-                    .replace("%name%", getChestType().getName())
+                    .replace("%name%", getChestType().getRawName())
                     .replace("%sellMultiplier%", getChestType().getSellMultiplier() + "")
                     .replace("%tax%", getChestType().getTax() + "")
                     .replace("%sellInterval%", getChestType().getSellInterval() + "");
@@ -101,7 +100,7 @@ public class SellChest {
         else if (status == ChestStatus.STOPPED)
             statusText = yml.getString("Status.stopped");
 
-        return ChatUtils.colorizeLegacy(statusText);
+        return statusText;
     }
 
     public boolean isLoaded() {
@@ -118,10 +117,6 @@ public class SellChest {
         return uuid;
     }
 
-    public SellChestType getChestType() {
-        return chestType;
-    }
-
     public Location getLocation() {
         World world = Bukkit.getWorld(worldName);
         return new Location(world, x, y, z);
@@ -129,30 +124,6 @@ public class SellChest {
 
     public int getRemainingTime() {
         return Math.max(remainingTime, 0);
-    }
-
-    public void setRemainingTime(int remainingTime) {
-        this.remainingTime = remainingTime;
-    }
-
-    public double getMoney() {
-        return money;
-    }
-
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    public ChestStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ChestStatus status) {
-        this.status = status;
-    }
-
-    public UUID getOwner() {
-        return owner;
     }
 
     public Location getHologramLocation() {

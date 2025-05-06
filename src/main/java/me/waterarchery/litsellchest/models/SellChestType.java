@@ -1,5 +1,6 @@
 package me.waterarchery.litsellchest.models;
 
+import lombok.Getter;
 import me.waterarchery.litlibs.LitLibs;
 import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litlibs.libs.xseries.XMaterial;
@@ -13,10 +14,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class SellChestType {
 
     private final String id;
     private final String name;
+    private final String rawName;
     private final double tax;
     private final double sellMultiplier;
     private final double sellInterval;
@@ -30,6 +33,7 @@ public class SellChestType {
         FileConfiguration yml = manager.getYml();
 
         name = manager.getString(getId() + ".name");
+        rawName = manager.getYml().getString(getId() + ".name");
         tax = yml.getDouble(getId() + ".tax");
         sellMultiplier = yml.getDouble(getId() + ".sellMultiplier");
         sellInterval = yml.getInt(getId() + ".sellInterval");
@@ -65,34 +69,6 @@ public class SellChestType {
         itemStack.setItemMeta(meta);
         itemStack = lib.getNBTAPIHook().setNBT(itemStack, "SellChestType", getId());
         return itemStack;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getTax() {
-        return tax;
-    }
-
-    public double getSellMultiplier() {
-        return sellMultiplier;
-    }
-
-    public double getSellInterval() {
-        return sellInterval;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getCollectRadius() {
-        return collectRadius;
     }
 
 }

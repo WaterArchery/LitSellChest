@@ -29,33 +29,33 @@ public class DefaultLang extends ConfigManager {
                         "%status% -> replaces with Sell Chest status",
                         "%sellInterval% -> replaces with selling interval",
                         "%remainingTime% -> replaces with remaining time")));
-        addDefault(new ConfigPart("TooManyArgs", "&7You entered &btoo many arguments &7for this command.",
+        addDefault(new ConfigPart("TooManyArgs", "<#CCFFEE>You entered <#47D4FF>too many arguments <#CCFFEE>for this command.",
                 Collections.singletonList("This is called when command args exceed the maximum")));
-        addDefault(new ConfigPart("TooFewArgs", "&7You entered &btoo few arguments &7for this command.",
+        addDefault(new ConfigPart("TooFewArgs", "<#CCFFEE>You entered <#47D4FF>too few arguments <#CCFFEE>for this command.",
                 Collections.singletonList("This is called when command args are too few for the command")));
         addDefault(new ConfigPart("InvalidArg",
-                "&7You entered a &binvalid argument &7for this command. You entered &e%used% &7but correct one is &e%correct%!",
+                "<#CCFFEE>You entered a <#47D4FF>invalid argument <#CCFFEE>for this command. You entered <#47D4FF>%used% <#CCFFEE>but correct one is <#47D4FF>%correct%!",
                 Collections.singletonList("This is called when on of the command arg is invalid")));
-        addDefault(new ConfigPart("UnknownCommand", "&7You entered a &bunknown command &7for this command.",
+        addDefault(new ConfigPart("UnknownCommand", "<#CCFFEE>You entered a <#47D4FF>unknown command <#CCFFEE>for this command.",
                 Collections.singletonList("This is called when on of the sub command arg is unknown")));
-        addDefault(ConfigPart.noComment("NoPermission", "&7You don't &bhave permission &7to execute this command."));
-        addDefault(ConfigPart.noComment("NoChestWithType", "&7There is &bno chest type &7with this name."));
-        addDefault(ConfigPart.noComment("InvalidPriceOrFree","&7There are items in the chest that are not sellable or have a 0 price"));
-        addDefault(ConfigPart.noComment("ChestGaveTarget", "&7You received a &b%name%!"));
-        addDefault(ConfigPart.noComment("ChestGaveAdmin", "&7You gave &b%name% &7to &b%player% &7successfully."));
-        addDefault(ConfigPart.noComment("ChestPlaced", "&7You successfully placed your &bsell chest. &7It will start selling soon!"));
-        addDefault(ConfigPart.noComment("ChestsTooNear", "&7You can't place a &bSell Chest &7here!"));
-        addDefault(ConfigPart.noComment("NotEnoughMoney", "&7You don't have &benough money &7to buy this chest!"));
-        addDefault(ConfigPart.noComment("ChestBought", "&7You successfully bought &ba SellChest! &7Your new balance &b%money%$!"));
-        addDefault(ConfigPart.noComment("BrokeChest", "&7You successfully &bbroke your Sell Chest"));
-        addDefault(ConfigPart.noComment("NeedToNear", "&7You need to be near to your &bSell Chest &7to do this!"));
+        addDefault(ConfigPart.noComment("NoPermission", "<#CCFFEE>You don't <#47D4FF>have permission <#CCFFEE>to execute this command."));
+        addDefault(ConfigPart.noComment("NoChestWithType", "<#CCFFEE>There is <#47D4FF>no chest type <#CCFFEE>with this name."));
+        addDefault(ConfigPart.noComment("InvalidPriceOrFree","<#CCFFEE>There are items in the chest that are not sellable or have a 0 price"));
+        addDefault(ConfigPart.noComment("ChestGaveTarget", "<#CCFFEE>You received a <#47D4FF>%name%!"));
+        addDefault(ConfigPart.noComment("ChestGaveAdmin", "<#CCFFEE>You gave <#47D4FF>%name% <#CCFFEE>to <#47D4FF>%player% <#CCFFEE>successfully."));
+        addDefault(ConfigPart.noComment("ChestPlaced", "<#CCFFEE>You successfully placed your <#47D4FF>sell chest. <#CCFFEE>It will start selling soon!"));
+        addDefault(ConfigPart.noComment("ChestsTooNear", "<#CCFFEE>You can't place a <#47D4FF>Sell Chest <#CCFFEE>here!"));
+        addDefault(ConfigPart.noComment("NotEnoughMoney", "<#CCFFEE>You don't have <#47D4FF>enough money <#CCFFEE>to buy this chest!"));
+        addDefault(ConfigPart.noComment("ChestBought", "<#CCFFEE>You successfully bought <#47D4FF>a SellChest! <#CCFFEE>Your new balance <#47D4FF>%money%$!"));
+        addDefault(ConfigPart.noComment("BrokeChest", "<#CCFFEE>You successfully <#47D4FF>broke your Sell Chest"));
+        addDefault(ConfigPart.noComment("NeedToNear", "<#CCFFEE>You need to be near to your <#47D4FF>Sell Chest <#CCFFEE>to do this!"));
         addDefault(ConfigPart.noComment("LimitReached",
-                "&7Your Sell Chest limit is exceed &7(&c%current%/%max%&7). You need to &brank up &7in order to place more sell chests."));
-        addDefault(ConfigPart.noComment("MoneyDeposited", "&7Your items are &bsold &7and you received &b%money%$! You also paid %tax%$ tax!"));
-        addDefault(ConfigPart.noComment("PluginReloaded", "&aPlugin reloaded successfully!"));
-        addDefault(ConfigPart.noComment("Status.waiting", "&7Waiting to sell!"));
-        addDefault(ConfigPart.noComment("Status.selling", "&aSelling now!"));
-        addDefault(ConfigPart.noComment("Status.stopped", "&cStopped!"));
+                "<#CCFFEE>Your Sell Chest limit is exceed <#CCFFEE>(<red>%current%/%max%<#CCFFEE>). You need to <#47D4FF>rank up <#CCFFEE>in order to place more sell chests."));
+        addDefault(ConfigPart.noComment("MoneyDeposited", "<#CCFFEE>Your items are <#47D4FF>sold <#CCFFEE>and you received <#47D4FF>%money%$! You also paid %tax%$ tax!"));
+        addDefault(ConfigPart.noComment("PluginReloaded", "<green>Plugin reloaded successfully!"));
+        addDefault(ConfigPart.noComment("Status.waiting", "<#CCFFEE>Waiting to sell!"));
+        addDefault(ConfigPart.noComment("Status.selling", "<green>Selling now!"));
+        addDefault(ConfigPart.noComment("Status.stopped", "<red>Stopped!"));
     }
 
     @NotNull
@@ -63,13 +63,13 @@ public class DefaultLang extends ConfigManager {
         ArrayList<String> chestHologramLines = new ArrayList<>();
         chestHologramLines.add("%name%");
         chestHologramLines.add("");
-        chestHologramLines.add("&fSell Multiplier: &b%sellMultiplier%");
-        chestHologramLines.add("&fTax: &b%tax%");
-        chestHologramLines.add("&fStatus: &b%status%");
-        chestHologramLines.add("&fSell Interval: &b%sellInterval%");
+        chestHologramLines.add("<white>Sell Multiplier: <#47D4FF>%sellMultiplier%");
+        chestHologramLines.add("<white>Tax: <#47D4FF>%tax%");
+        chestHologramLines.add("<white>Status: <#47D4FF>%status%");
+        chestHologramLines.add("<white>Sell Interval: <#47D4FF>%sellInterval%");
         chestHologramLines.add("");
-        chestHologramLines.add("&7Wait for selling action");
-        chestHologramLines.add("&7Remaining time: &b%remainingTime%");
+        chestHologramLines.add("<#CCFFEE>Wait for selling action");
+        chestHologramLines.add("<#CCFFEE>Remaining time: <#47D4FF>%remainingTime%");
         return chestHologramLines;
     }
 

@@ -1,6 +1,6 @@
 chest_menu:
   size: 27
-  name: '&8SellChest - Chest Menu'
+  name: '<dark_gray>SellChest - Chest Menu'
   fillMenu:
     enabled: true
     fillItem: 'BLACK_STAINED_GLASS_PANE'
@@ -8,42 +8,42 @@ chest_menu:
     open_chest_inventory:
       slot: 10
       material: CHEST
-      name: '&bOpen Inventory'
+      name: '<#47D4FF>Open Inventory'
       lore:
         - ''
-        - '&7You can click here to'
-        - '&7access &bchest Inventory.'
+        - '<#CCFFEE>You can click here to'
+        - '<#CCFFEE>access <#47D4FF>chest Inventory.'
     collect_money:
       slot: 12
       material: ENDER_CHEST
-      name: '&bYour Sell Chests'
+      name: '<#47D4FF>Your Sell Chests'
       lore:
         - ''
-        - '&7You can click here to'
-        - '&7coolect &bthe money.'
+        - '<#CCFFEE>You can click here to'
+        - '<#CCFFEE>coolect <#47D4FF>the money.'
         - ''
-        - '&7Waiting to collect: &b%money%'
+        - '<#CCFFEE>Waiting to collect: <#47D4FF>%money%'
     properties:
       slot: 14
       material: ENDER_CHEST
-      name: '&bYour Sell Chests'
+      name: '<#47D4FF>Your Sell Chests'
       lore:
         - ''
-        - '&7You can click here to'
-        - '&7view &bSell Chest properties.'
+        - '<#CCFFEE>You can click here to'
+        - '<#CCFFEE>view <#47D4FF>Sell Chest properties.'
     start_item:
       slot: 16
       material: LIME_WOOL
-      name: '&bStart Selling'
+      name: '<#47D4FF>Start Selling'
       lore:
         - ''
-        - '&7You can click here to'
-        - '&7start &bselling.'
+        - '<#CCFFEE>You can click here to'
+        - '<#CCFFEE>start <#47D4FF>selling.'
     stop_item:
       slot: 16
       material: RED_WOOL
-      name: '&bStop Selling'
+      name: '<#47D4FF>Stop Selling'
       lore:
         - ''
-        - '&7You can click here to'
-        - '&7stop &bselling.'
+        - '<#CCFFEE>You can click here to'
+        - '<#CCFFEE>stop <#47D4FF>selling.'

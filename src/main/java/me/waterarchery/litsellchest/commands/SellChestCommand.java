@@ -21,11 +21,11 @@ public class SellChestCommand extends BaseCommand {
 
     @Default
     public void mainCommand(CommandSender sender) {
-        if (sender instanceof Player) {
-            GUIHandler guiHandler = GUIHandler.getInstance();
-            DefaultMenu defaultMenu = guiHandler.getDefaultMenu();
-            ((Player) sender).openInventory(defaultMenu.generateInventory((Player) sender));
-            SoundManager.sendSound((Player) sender, "DefaultMenuOpened");
+        if (sender instanceof Player player) {
+            DefaultMenu defaultMenu = new DefaultMenu();
+
+            defaultMenu.openAsync(player);
+            SoundManager.sendSound(player, "DefaultMenuOpened");
         }
         else {
             LitLibs libs = LitSellChest.getLibs();

@@ -51,7 +51,7 @@ public class ChestPlaceListener implements Listener {
                         SoundManager.sendSound(player, "ChestPlace");
                     }
                     else {
-                        String mes = configHandler.getMessageLang("LimitReached").replace("%current%", chestCount + "")
+                        String mes = configHandler.getRawMessageLang("LimitReached").replace("%current%", chestCount + "")
                                 .replace("%max%", maxChests + "");
                         libs.getMessageHandler().sendMessage(player, mes);
                         SoundManager.sendSound(player, "LimitExceedSound");

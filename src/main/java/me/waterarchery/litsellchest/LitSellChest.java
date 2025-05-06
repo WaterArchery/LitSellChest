@@ -100,8 +100,6 @@ public final class LitSellChest extends JavaPlugin {
 
     private void registerEvents() {
         getServer().getPluginManager().registerEvents(new ChestPlaceListener(), this);
-        getServer().getPluginManager().registerEvents(new MainMenuListener(), this);
-        getServer().getPluginManager().registerEvents(new ShopMenuListener(), this);
         getServer().getPluginManager().registerEvents(new YourChestsMenuListener(), this);
         getServer().getPluginManager().registerEvents(new ChestBreakListener(), this);
         getServer().getPluginManager().registerEvents(new ChestProtectListeners(), this);
