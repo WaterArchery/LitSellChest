@@ -97,7 +97,7 @@ public abstract class Database {
         Runnable runnable = () -> {
             Connection connection = getSQLConnection();
             String query = "DELETE FROM " + TABLE_NAME + " WHERE id='" + uuid + "';";
-            Logger logger = LitSellChest.getInstance().getLibs().getLogger();
+            Logger logger = LitSellChest.getLibs().getLogger();
             try {
                 PreparedStatement ps =connection.prepareStatement(query);
                 ps.executeUpdate();
@@ -117,7 +117,7 @@ public abstract class Database {
         try {
             ChestHandler chestHandler = ChestHandler.getInstance();
             Connection conn = getSQLConnection();
-            Logger logger = LitSellChest.getInstance().getLibs().getLogger();
+            Logger logger = LitSellChest.getLibs().getLogger();
 
             ps = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + ";");
             rs = ps.executeQuery();

@@ -9,6 +9,7 @@ import me.waterarchery.litsellchest.models.ChestStatus;
 import me.waterarchery.litsellchest.models.SellChest;
 import me.waterarchery.litsellchest.models.SellChestType;
 import me.waterarchery.litsellchest.models.SellTask;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +32,7 @@ public class ChestHandler {
 
     private final List<SellChestType> chestTypes = new ArrayList<>();
     private final List<SellChest> loadedChests = new ArrayList<>();
+    private final HashMap<UUID, UUID> chestOwners = new HashMap<>();
     private SellTask task;
     private static ChestHandler instance;
 
@@ -202,6 +205,9 @@ public class ChestHandler {
             Inventory inventory = chestBlock.getBlockInventory();
             player.openInventory(inventory);
             SoundManager.sendSound(player, "InventoryOpened");
+
+            if (chestOwners.get(player.getUniqueId()) == null) chestOwners.put(player.getUniqueId(), sellChest.getUUID());
+            else chestOwners.replace(player.getUniqueId(), sellChest.getUUID());
         }
         else {
             ConfigHandler.getInstance().sendMessageLang(player, "NeedToNear");
@@ -212,6 +218,17 @@ public class ChestHandler {
     public void deleteChest(SellChest chest, boolean dropItem, boolean dropContents) {
         chest.deleteHologram();
         loadedChests.remove(chest);
+
+        for (UUID playerUUID : chestOwners.keySet()) {
+            UUID chestUUID = chestOwners.get(playerUUID);
+
+            if (chestUUID.equals(chest.getUUID())) {
+                chestOwners.remove(playerUUID);
+
+                Player player = Bukkit.getPlayer(playerUUID);
+                if (player != null) player.closeInventory();
+            }
+        }
 
         // Deleting from database
         Database database = LitSellChest.getDatabase();

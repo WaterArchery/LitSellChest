@@ -26,7 +26,7 @@ public class MySQL extends Database {
             connection = dataSource.getConnection();
             return connection;
         } catch (SQLException ex) {
-            LitSellChest.getInstance().getLibs().getLogger().log("MySQL exception on initialize");
+            LitSellChest.getLibs().getLogger().log("MySQL exception on initialize");
         }
         return null;
     }
