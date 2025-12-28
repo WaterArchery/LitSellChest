@@ -1,15 +1,17 @@
 package me.waterarchery.litsellchest.commands;
 
-import dev.triumphteam.cmd.bukkit.annotation.Permission;
-import dev.triumphteam.cmd.core.BaseCommand;
-import dev.triumphteam.cmd.core.annotation.*;
-import me.waterarchery.litlibs.LitLibs;
-import me.waterarchery.litsellchest.LitSellChest;
+import com.chickennw.utils.libs.cmd.bukkit.annotation.Permission;
+import com.chickennw.utils.libs.cmd.core.annotations.ArgName;
+import com.chickennw.utils.libs.cmd.core.annotations.Command;
+import com.chickennw.utils.libs.cmd.core.annotations.Optional;
+import com.chickennw.utils.libs.cmd.core.annotations.Suggestion;
+import com.chickennw.utils.models.commands.BaseCommand;
+import com.chickennw.utils.utils.ChatUtils;
+import com.chickennw.utils.utils.ConfigUtils;
+import me.waterarchery.litsellchest.configuration.config.LangFile;
 import me.waterarchery.litsellchest.configuration.gui.DefaultMenu;
-import me.waterarchery.litsellchest.handlers.ChestHandler;
-import me.waterarchery.litsellchest.handlers.ConfigHandler;
-import me.waterarchery.litsellchest.handlers.GUIHandler;
-import me.waterarchery.litsellchest.handlers.SoundManager;
+import me.waterarchery.litsellchest.configuration.gui.ShopMenu;
+import me.waterarchery.litsellchest.managers.ChestManager;
 import me.waterarchery.litsellchest.models.SellChestType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,65 +21,53 @@ import java.util.Objects;
 @Command(value = "litsellchest", alias = {"sellchest", "lsc"})
 public class SellChestCommand extends BaseCommand {
 
-    @Default
-    public void mainCommand(CommandSender sender) {
-        if (sender instanceof Player player) {
-            DefaultMenu defaultMenu = new DefaultMenu();
+    private final LangFile langFile;
 
-            defaultMenu.openAsync(player);
-            SoundManager.sendSound(player, "DefaultMenuOpened");
-        }
-        else {
-            LitLibs libs = LitSellChest.getLibs();
-            libs.getLogger().log("You can only use this command on in game.");
-        }
+    public SellChestCommand() {
+        langFile = ConfigUtils.get(LangFile.class);
     }
 
-    @SubCommand("shop")
-    public void shop(CommandSender sender) {
-        if (sender instanceof Player) {
-            GUIHandler guiHandler = GUIHandler.getInstance();
-            guiHandler.openShop((Player) sender);
-        }
-        else {
-            LitLibs libs = LitSellChest.getLibs();
-            libs.getLogger().log("You can only use this command on in game.");
-        }
+    @Command
+    public void mainCommand(Player player) {
+        DefaultMenu defaultMenu = new DefaultMenu(player);
+        defaultMenu.openAsync(player);
+    }
+
+    @Command("shop")
+    public void shop(Player player) {
+        ShopMenu shopMenu = new ShopMenu(player);
+        shopMenu.openAsync(player, shopMenu.generateGuiElements());
     }
 
     @Permission("litsellchest.admin.give")
-    @SubCommand("give")
+    @Command("give")
     public void give(CommandSender sender, Player target,
-                            @ArgName("chestType") @Suggestion("chest-types") String rawType,
-                            @ArgName("amount") @Optional Integer amount) {
-        ChestHandler chestHandler = ChestHandler.getInstance();
-        SellChestType chestType = chestHandler.getType(rawType);
-        ConfigHandler configHandler = ConfigHandler.getInstance();
+                     @ArgName("chestType") @Suggestion("chest-types") String rawType,
+                     @ArgName("amount") @Optional Integer amount) {
+        ChestManager chestManager = ChestManager.getInstance();
+        SellChestType chestType = chestManager.getType(rawType);
 
         if (chestType != null) {
-            chestHandler.giveChest(target, chestType, Objects.requireNonNullElse(amount, 1));
-            String senderMes = configHandler.getMessageLang("ChestGaveAdmin")
-                    .replace("%player%", target.getName())
+            chestManager.giveChest(target, chestType, Objects.requireNonNullElse(amount, 1));
+
+            String senderMes = langFile.getChestGaveAdmin().replace("%player%", target.getName())
                     .replace("%name%", chestType.getName());
-            String targetMes = configHandler.getMessageLang("ChestGaveTarget").replace("%name%", chestType.getName());
-            sender.sendMessage(senderMes);
-            if (!sender.equals(target))
-                target.sendMessage(targetMes);
-        }
-        else {
-            configHandler.sendMessageLang(target, "NoChestWithType");
+            ChatUtils.sendMessage(sender, senderMes);
+
+            String targetMes = langFile.getChestGaveTarget().replace("%name%", chestType.getName());
+            ChatUtils.sendMessage(target, targetMes);
+        } else {
+            ChatUtils.sendMessage(sender, langFile.getNoChestWithType());
         }
     }
 
     @Permission("litsellchest.admin.reload")
-    @SubCommand("reload")
+    @Command("reload")
     public void reload(CommandSender sender) {
-        ChestHandler chestHandler = ChestHandler.getInstance();
-        ConfigHandler configHandler = ConfigHandler.getInstance();
+        ChestManager chestManager = ChestManager.getInstance();
 
-        chestHandler.loadChestTypes();
-        chestHandler.startTask();
-        configHandler.sendMessageLang(sender, "PluginReloaded");
+        chestManager.loadChestTypes();
+        chestManager.startTask();
+        ChatUtils.sendMessage(sender, langFile.getPluginReloaded());
     }
-
 }

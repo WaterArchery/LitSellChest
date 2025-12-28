@@ -3,8 +3,12 @@ version: '${project.version}'
 main: me.waterarchery.litsellchest.LitSellChest
 api-version: '1.13'
 author: WaterArchery
+softdepend:
+  - FancyHolograms
 libraries:
-  - org.mariadb.jdbc:mariadb-java-client:3.4.1
-  - com.zaxxer:HikariCP:6.0.0
-depend:
-  - LitLibs
+  - org.hibernate.orm:hibernate-hikaricp:6.6.13.Final
+  - org.hibernate.orm:hibernate-core:6.6.13.Final
+  - com.h2database:h2:2.3.232
+  - com.zaxxer:HikariCP:6.2.1
+  - org.mariadb.jdbc:mariadb-java-client:3.5.3
+  - mysql:mysql-connector-java:8.0.33

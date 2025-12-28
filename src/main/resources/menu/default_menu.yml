@@ -1,0 +1,30 @@
+title: '<dark_gray>SellChest - Main Menu'
+open_sound: ENTITY_PLAYER_LEVELUP
+pattern:
+  - '---------'
+  - '---s-c---'
+  - '---------'
+filler:
+  enabled: true
+  material: BLACK_STAINED_GLASS_PANE
+  name: '<dark_gray>'
+  lore: []
+items:
+  open_shop:
+    name: '<#47D4FF>Open Shop'
+    lore:
+      - ''
+      - '<#CCFFEE>You can click here to'
+      - '<#CCFFEE>open <#47D4FF>Chest Shop.'
+    material: CHEST
+    symbol: s
+
+  your_chests:
+    name: '<#47D4FF>Your Sell Chests'
+    lore:
+      - ''
+      - '<#CCFFEE>You can click here to'
+      - '<#CCFFEE>open <#47D4FF>your Sell Chests.'
+    material: ENDER_CHEST
+    symbol: c
+

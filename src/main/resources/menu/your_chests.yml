@@ -1,0 +1,55 @@
+pattern:
+  - '---------'
+  - '--iiiii--'
+  - '--iiiii--'
+  - '--n---p--'
+open_sound: BLOCK_NOTE_BLOCK_PLING
+title: 'ʟᴇᴀᴅᴇʀʙᴏᴀʀᴅ'
+filler:
+  enabled: true
+  material: GRAY_STAINED_GLASS_PANE
+  name: '<gray>'
+  lore: []
+items:
+  template-item:
+    name: '%player-name%'
+    lore:
+      - ''
+      - '<#47D4FF><bold>INFO'
+      - ' <#CCFFEE>This is your personal'
+      - ' <#47D4FF>SellChest. <#CCFFEE>You can'
+      - ' <#CCFFEE>store items here to'
+      - ' <#CCFFEE>sell them <#47D4FF>automatically.'
+      - ''
+      - '<#47D4FF><bold>LOCATION'
+      - ' <#CCFFEE>World: <#47D4FF>%world%'
+      - ' <#CCFFEE>X: <#47D4FF>%x%'
+      - ' <#CCFFEE>Y: <#47D4FF>%y%'
+      - ' <#CCFFEE>Z: <#47D4FF>%z%'
+      - ' <#CCFFEE>Is Loaded: <#47D4FF>%loaded%'
+      - ''
+      - '<#CCFFEE>Click here to <#47D4FF>open <#CCFFEE>this'
+      - '<#47D4FF>chest''s inventory.'
+    material: CHEST
+    action: template
+    symbol: i
+  previous-page:
+    name: <red><#47D4FF>%tournament% ʟᴇᴀᴅᴇʀʙᴏᴀʀᴅ
+    material: ARROW
+    custom-model-data: -1
+    lore:
+      - ''
+      - <#CCFFEE>ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ɴᴀᴠɪɢᴀᴛᴇ
+      - <#47D4FF>ᴘʀᴇᴠɪᴏᴜs ᴘᴀɢᴇ.
+    symbol: p
+    action: previous_page
+  next-page:
+    name: <red>ɴᴇxᴛ ᴘᴀɢᴇ
+    material: ARROW
+    custom-model-data: -1
+    lore:
+      - ''
+      - <#CCFFEE>ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ɴᴀᴠɪɢᴀᴛᴇ
+      - <#47D4FF>ɴᴇxᴛ ᴘᴀɢᴇ.
+    symbol: n
+    action: next_page

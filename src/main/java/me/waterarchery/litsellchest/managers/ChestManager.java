@@ -1,10 +1,19 @@
-package me.waterarchery.litsellchest.handlers;
+package me.waterarchery.litsellchest.managers;
 
+import com.chickennw.utils.logger.LoggerFactory;
+import com.chickennw.utils.managers.HookManager;
+import com.chickennw.utils.models.hooks.impl.other.VaultHook;
+import com.chickennw.utils.utils.ChatUtils;
+import com.chickennw.utils.utils.ConfigUtils;
+import com.chickennw.utils.utils.NbtUtils;
+import com.chickennw.utils.utils.SoundUtils;
 import lombok.Getter;
-import me.waterarchery.litlibs.LitLibs;
-import me.waterarchery.litlibs.configuration.ConfigManager;
 import me.waterarchery.litsellchest.LitSellChest;
-import me.waterarchery.litsellchest.database.Database;
+import me.waterarchery.litsellchest.configuration.config.ChestsFile;
+import me.waterarchery.litsellchest.configuration.config.ConfigFile;
+import me.waterarchery.litsellchest.configuration.config.LangFile;
+import me.waterarchery.litsellchest.configuration.config.SoundsFile;
+import me.waterarchery.litsellchest.database.SellChestDatabase;
 import me.waterarchery.litsellchest.models.ChestStatus;
 import me.waterarchery.litsellchest.models.SellChest;
 import me.waterarchery.litsellchest.models.SellChestType;
@@ -15,33 +24,31 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
-public class ChestHandler {
+public class ChestManager {
 
+    private static ChestManager instance;
     private final List<SellChestType> chestTypes = new ArrayList<>();
-    private final List<SellChest> loadedChests = new ArrayList<>();
+    private final ConcurrentHashMap<UUID, SellChest> loadedChests = new ConcurrentHashMap<>();
     private final HashMap<UUID, UUID> chestOwners = new HashMap<>();
+    private final Logger logger;
     private SellTask task;
-    private static ChestHandler instance;
 
-    public static ChestHandler getInstance() {
-        if (instance == null) instance = new ChestHandler();
+    public static ChestManager getInstance() {
+        if (instance == null) instance = new ChestManager();
         return instance;
     }
 
-    private ChestHandler() {
+    private ChestManager() {
+        logger = LoggerFactory.getLogger();
         loadChestTypes();
         startTask();
     }
@@ -51,16 +58,14 @@ public class ChestHandler {
             task.cancel();
         }
 
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        ConfigManager manager = configHandler.getConfig();
-        int interval = manager.getYml().getInt("DefaultCheckInterval");
-        LitLibs libs = LitSellChest.getLibs();
-        task = new SellTask(interval, libs);
+        ConfigFile configFile = ConfigUtils.get(ConfigFile.class);
+        int interval = configFile.getDefaultCheckInterval();
+        task = new SellTask(interval);
         task.runTaskTimer(LitSellChest.getInstance(), 20, interval * 20L);
     }
 
     public boolean isLocationValid(Location location) {
-        for (SellChest chest : getLoadedChests()) {
+        for (SellChest chest : loadedChests.values()) {
             if (chest.isLoaded()) {
                 if (chest.getLocation().getWorld().getName().equalsIgnoreCase(location.getWorld().getName())) {
                     if (chest.getLocation().distance(location) < 2) {
@@ -74,20 +79,17 @@ public class ChestHandler {
     }
 
     public void loadChestTypes() {
-        LitLibs libs = LitSellChest.getLibs();
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        ConfigManager manager = configHandler.getChests();
-        FileConfiguration yml = manager.getYml();
+        ChestsFile chestsFile = ConfigUtils.get(ChestsFile.class);
 
         chestTypes.clear();
-        for (String chestID : yml.getConfigurationSection("").getKeys(false)) {
-            SellChestType type = new SellChestType(chestID);
+        for (Map.Entry<String, ChestsFile.ChestConfig> entry : chestsFile.getChests().entrySet()) {
+            SellChestType type = new SellChestType(entry.getKey(), entry.getValue());
             chestTypes.add(type);
-            libs.getLogger().log("Loaded Sell Chest type: " + chestID);
+            logger.info("Loaded Sell Chest type: {}", entry.getKey());
         }
     }
 
-    public @Nullable SellChestType getType(String type) {
+    public SellChestType getType(String type) {
         SellChestType chestType = null;
         for (SellChestType sellChestType : getChestTypes()) {
             if (sellChestType.getId().equalsIgnoreCase(type)) {
@@ -104,7 +106,9 @@ public class ChestHandler {
         if (!p.isOnline()) {
             return -1;
         }
-        for (String node : LitSellChest.getInstance().getConfig().getStringList("PlaceLimits")) {
+
+        ConfigFile configFile = ConfigUtils.get(ConfigFile.class);
+        for (String node : configFile.getPlaceLimits()) {
             String permNode = node.split(":")[0];
             int count = Integer.parseInt(node.split(":")[1]);
             if (((Player) p).hasPermission(permNode)) {
@@ -119,7 +123,7 @@ public class ChestHandler {
     public int getChestCount(OfflinePlayer p) {
         UUID uuid = p.getUniqueId();
         int count = 0;
-        for (SellChest sellChest : loadedChests) {
+        for (SellChest sellChest : loadedChests.values()) {
             if (sellChest != null && sellChest.getOwner().equals(uuid)) {
                 count++;
             }
@@ -127,9 +131,8 @@ public class ChestHandler {
         return count;
     }
 
-    public @Nullable SellChestType getType(ItemStack itemStack) {
-        LitLibs libs = LitSellChest.getLibs();
-        String rawType = libs.getNBTAPIHook().getNBT(itemStack, "SellChestType");
+    public SellChestType getType(ItemStack itemStack) {
+        String rawType = NbtUtils.getValue(itemStack, "SellChestType");
         if (rawType != null) {
             return getType(rawType);
         }
@@ -137,7 +140,7 @@ public class ChestHandler {
         return null;
     }
 
-    public @Nullable ChestStatus parseStatus(String status) {
+    public ChestStatus parseStatus(String status) {
         if (status.equalsIgnoreCase("WAITING"))
             return ChestStatus.WAITING;
         else if (status.equalsIgnoreCase("SELLING"))
@@ -149,11 +152,9 @@ public class ChestHandler {
     }
 
     public void giveChest(Player player, SellChestType chestType, int amount) {
-        LitSellChest instance = LitSellChest.getInstance();
-        LitLibs libs = instance.getLibs();
-        ItemStack itemStack = chestType.toItemStack();
+        ItemStack itemStack = chestType.getItemStack();
         itemStack.setAmount(amount);
-        itemStack = libs.getNBTAPIHook().setNBT(itemStack, "SellChestType", chestType.getId());
+        itemStack = NbtUtils.setKey(itemStack, "SellChestType", chestType.getId());
         player.getInventory().addItem(itemStack);
     }
 
@@ -163,8 +164,8 @@ public class ChestHandler {
         return list;
     }
 
-    public @Nullable SellChest getSellChest(Block block) {
-        for (SellChest chest : getLoadedChests()) {
+    public SellChest getSellChest(Block block) {
+        for (SellChest chest : loadedChests.values()) {
             if (chest.isLoaded()) {
                 if (chest.getLocation().getWorld().getName().equalsIgnoreCase(block.getWorld().getName())) {
                     if (chest.getLocation().distance(block.getLocation()) == 0) {
@@ -176,10 +177,10 @@ public class ChestHandler {
         return null;
     }
 
-    public @Nullable SellChest getSellChest(UUID uuid) {
-        for (SellChest chest : getLoadedChests()) {
+    public SellChest getSellChest(UUID uuid) {
+        for (SellChest chest : loadedChests.values()) {
             if (chest.isLoaded()) {
-                if (chest.getUUID().equals(uuid)) {
+                if (chest.getUuid().equals(uuid)) {
                     return chest;
                 }
             }
@@ -190,7 +191,7 @@ public class ChestHandler {
     public List<SellChest> getPlayerChests(Player player) {
         List<SellChest> playerChests = new ArrayList<>();
 
-        for (SellChest chest : getLoadedChests()) {
+        for (SellChest chest : loadedChests.values()) {
             if (chest.getOwner().equals(player.getUniqueId())) {
                 playerChests.add(chest);
             }
@@ -199,19 +200,21 @@ public class ChestHandler {
         return playerChests;
     }
 
-    public void openChestInventoryOpen(@NotNull SellChest sellChest, @NotNull Player player) {
+    public void openChestInventoryOpen(SellChest sellChest, Player player) {
+        LangFile langFile = ConfigUtils.get(LangFile.class);
+        SoundsFile soundsFile = ConfigUtils.get(SoundsFile.class);
+
         if (sellChest.isLoaded()) {
             Chest chestBlock = (Chest) sellChest.getLocation().getBlock().getState();
             Inventory inventory = chestBlock.getBlockInventory();
             player.openInventory(inventory);
-            SoundManager.sendSound(player, "InventoryOpened");
+            SoundUtils.sendSoundRaw(player, soundsFile.getInventoryOpened());
 
-            if (chestOwners.get(player.getUniqueId()) == null) chestOwners.put(player.getUniqueId(), sellChest.getUUID());
-            else chestOwners.replace(player.getUniqueId(), sellChest.getUUID());
-        }
-        else {
-            ConfigHandler.getInstance().sendMessageLang(player, "NeedToNear");
-            SoundManager.sendSound(player, "NeedToNear");
+            if (chestOwners.get(player.getUniqueId()) == null) chestOwners.put(player.getUniqueId(), sellChest.getUuid());
+            else chestOwners.replace(player.getUniqueId(), sellChest.getUuid());
+        } else {
+            ChatUtils.sendMessage(player, langFile.getNeedToNear());
+            SoundUtils.sendSoundRaw(player, soundsFile.getNeedToNear());
         }
     }
 
@@ -222,7 +225,7 @@ public class ChestHandler {
         for (UUID playerUUID : chestOwners.keySet()) {
             UUID chestUUID = chestOwners.get(playerUUID);
 
-            if (chestUUID.equals(chest.getUUID())) {
+            if (chestUUID.equals(chest.getUuid())) {
                 chestOwners.remove(playerUUID);
 
                 Player player = Bukkit.getPlayer(playerUUID);
@@ -231,31 +234,45 @@ public class ChestHandler {
         }
 
         // Deleting from database
-        Database database = LitSellChest.getDatabase();
-        database.deleteChest(chest.getUUID());
+        SellChestDatabase database = SellChestDatabase.getInstance();
+        database.delete(chest);
 
         if (dropItem) {
-            ItemStack itemStack = chest.getChestType().toItemStack();
+            ItemStack itemStack = chest.getChestType().getItemStack();
             chest.getLocation().getWorld().dropItemNaturally(chest.getLocation(), itemStack);
         }
 
         if (dropContents) {
             Chest chestBlock = (Chest) chest.getLocation().getBlock().getState();
             chestBlock.getBlockInventory().forEach((item) -> {
-                if (item != null)
-                    chest.getLocation().getWorld().dropItemNaturally(chest.getLocation(), item);
+                if (item != null) chest.getLocation().getWorld().dropItemNaturally(chest.getLocation(), item);
             });
         }
 
         chest.getLocation().getBlock().setType(Material.AIR);
     }
 
-    public void addLoadedChest(SellChest chest) {
-        loadedChests.add(chest);
-    }
+    public void handleShopBuy(Player player, SellChestType sellChestType) {
+        VaultHook vaultHook = HookManager.getInstance().getHookWithExact(VaultHook.class);
+        LangFile langFile = ConfigUtils.get(LangFile.class);
+        SoundsFile soundsFile = ConfigUtils.get(SoundsFile.class);
 
-    public List<SellChest> getLoadedChests() {
-        return new ArrayList<>(loadedChests);
-    }
+        if (sellChestType != null) {
+            double price = sellChestType.getPrice();
+            double balance = vaultHook.getPlayerMoney(player);
+            if (price <= balance) {
+                vaultHook.takeMoney(player, price);
+                ItemStack placeItem = sellChestType.getItemStack();
+                player.getInventory().addItem(placeItem);
 
+                String mes = langFile.getChestBought().replace("%money%", (balance - price) + "");
+                ChatUtils.sendMessage(player, mes);
+                SoundUtils.sendSoundRaw(player, soundsFile.getChestReceive());
+            } else {
+                ChatUtils.sendMessage(player, langFile.getNotEnoughMoney());
+            }
+        } else {
+            logger.error("SellChestType not found in shop.");
+        }
+    }
 }

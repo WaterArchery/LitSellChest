@@ -1,0 +1,72 @@
+title: '<dark_gray>SellChest - Shop'
+open_sound: ENTITY_PLAYER_LEVELUP
+pattern:
+  - '---------'
+  - '--1-2-3--'
+  - '---------'
+filler:
+  enabled: true
+  material: BLACK_STAINED_GLASS_PANE
+  name: '<dark_gray>'
+  lore: []
+items:
+  chest1:
+    name: '%name%'
+    lore:
+      - ''
+      - '<#47D4FF><bold>INFO'
+      - '<#CCFFEE>You can place your items'
+      - '<#CCFFEE>inside this chest to sell them.'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>PROPERTIES'
+      - '<#CCFFEE>Tax: <#47D4FF>%tax%%'
+      - '<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%'
+      - '<#CCFFEE>Interval: <#47D4FF>%sellInterval%s'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>BUY NOW'
+      - '<#CCFFEE>Price: <#47D4FF>%price%'
+      - '<#CCFFEE>Chest Place Limit: <#47D4FF>%playerLimit%/%playerCount%'
+      - '<#CCFFEE>Click here to <#47D4FF>buy now!'
+    material: CHEST
+    symbol: 1
+
+  chest2:
+    name: '%name%'
+    lore:
+      - ''
+      - '<#47D4FF><bold>INFO'
+      - '<#CCFFEE>You can place your items'
+      - '<#CCFFEE>inside this chest to sell them.'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>PROPERTIES'
+      - '<#CCFFEE>Tax: <#47D4FF>%tax%%'
+      - '<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%'
+      - '<#CCFFEE>Interval: <#47D4FF>%sellInterval%s'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>BUY NOW'
+      - '<#CCFFEE>Price: <#47D4FF>%price%'
+      - '<#CCFFEE>Chest Place Limit: <#47D4FF>%playerLimit%/%playerCount%'
+      - '<#CCFFEE>Click here to <#47D4FF>buy now!'
+    material: CHEST
+    symbol: 2
+
+  chest3:
+    name: '%name%'
+    lore:
+      - ''
+      - '<#47D4FF><bold>INFO'
+      - '<#CCFFEE>You can place your items'
+      - '<#CCFFEE>inside this chest to sell them.'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>PROPERTIES'
+      - '<#CCFFEE>Tax: <#47D4FF>%tax%%'
+      - '<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%'
+      - '<#CCFFEE>Interval: <#47D4FF>%sellInterval%s'
+      - '<#CCFFEE>'
+      - '<#47D4FF><bold>BUY NOW'
+      - '<#CCFFEE>Price: <#47D4FF>%price%'
+      - '<#CCFFEE>Chest Place Limit: <#47D4FF>%playerLimit%/%playerCount%'
+      - '<#CCFFEE>Click here to <#47D4FF>buy now!'
+    material: CHEST
+    symbol: 3
+

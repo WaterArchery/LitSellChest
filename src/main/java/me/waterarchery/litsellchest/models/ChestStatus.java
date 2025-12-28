@@ -5,5 +5,4 @@ public enum ChestStatus {
     WAITING,
     SELLING,
     STOPPED
-
 }

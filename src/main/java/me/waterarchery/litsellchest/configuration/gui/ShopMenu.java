@@ -1,51 +1,85 @@
 package me.waterarchery.litsellchest.configuration.gui;
 
-import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
-import me.waterarchery.litlibs.impl.gui.LitGui;
-import me.waterarchery.litlibs.impl.gui.items.LitMenuItem;
-import me.waterarchery.litlibs.inventory.Action;
-import me.waterarchery.litlibs.libs.gui.components.GuiAction;
-import me.waterarchery.litsellchest.LitSellChest;
-import me.waterarchery.litsellchest.handlers.ChestHandler;
-import me.waterarchery.litsellchest.handlers.ConfigHandler;
-import me.waterarchery.litsellchest.handlers.SoundManager;
-import me.waterarchery.litsellchest.hooks.VaultHook;
+import com.chickennw.utils.libs.themoep.inventorygui.GuiElement;
+import com.chickennw.utils.libs.themoep.inventorygui.InventoryGui;
+import com.chickennw.utils.libs.themoep.inventorygui.StaticGuiElement;
+import com.chickennw.utils.models.menus.LitMenu;
+import com.chickennw.utils.utils.ConfigUtils;
+import me.waterarchery.litsellchest.configuration.config.ChestsFile;
+import me.waterarchery.litsellchest.managers.ChestManager;
 import me.waterarchery.litsellchest.models.SellChestType;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ShopMenu extends LitGui {
+public class ShopMenu extends LitMenu {
 
-    public ShopMenu() {
-        super("shop_menu", ConfigHandler.getInstance().getGUIYaml("shop_menu"), LitSellChest.getInstance());
+    public ShopMenu(Player player) {
+        super("shop_menu", player);
     }
 
     @Override
-    public LitMenuItem generateItem(OfflinePlayer player, String itemPath) {
-        LitMenuItem item = super.generateItem(player, itemPath);
+    public HashMap<String, GuiElement.Action> getGuiActions() {
+        HashMap<String, GuiElement.Action> actions = new HashMap<>();
 
-        ItemStack itemStack = item.getGuiItem().getItemStack();
+        return actions;
+    }
+
+    @Override
+    public String parsePlaceholder(String s) {
+        return s;
+    }
+
+    @Override
+    public List<String> parsePlaceholderAsList(String s) {
+        return List.of(s);
+    }
+
+    @Override
+    public InventoryGui.CloseAction getCloseAction() {
+        return (close) -> false;
+    }
+
+    public List<GuiElement> generateGuiElements() {
+        List<GuiElement> elements = new ArrayList<>();
+        ChestsFile chestsFile = ConfigUtils.get(ChestsFile.class);
+
+        yaml.getConfigurationSection("items").getKeys(false).forEach(itemPath -> {
+            ChestsFile.ChestConfig chestConfig = chestsFile.getChests().get(itemPath);
+            ItemStack itemStack = generateItemStack(player, itemPath, chestConfig);
+            char symbol = yaml.getString("items." + itemPath + ".symbol").charAt(0);
+
+            GuiElement.Action action = (click) -> {
+                ChestManager chestManager = ChestManager.getInstance();
+                SellChestType sellChestType = chestManager.getType(itemPath);
+                chestManager.handleShopBuy(player, sellChestType);
+                return true;
+            };
+
+            StaticGuiElement staticGuiElement = new StaticGuiElement(symbol, itemStack, action);
+            elements.add(staticGuiElement);
+        });
+
+        return elements;
+    }
+
+    private ItemStack generateItemStack(OfflinePlayer player, String chestId, ChestsFile.ChestConfig chestConfig) {
+        ItemStack itemStack = super.createItemStack(player.getUniqueId(), "items." + chestId);
         ItemMeta meta = itemStack.getItemMeta();
 
         List<String> oldLore = meta.getLore();
         List<String> newLore = new ArrayList<>();
 
-        ChestHandler chestHandler = ChestHandler.getInstance();
-        int playerChestLimit = chestHandler.getMaxPlaceableChests(player);
-        int playerChestCount = chestHandler.getChestCount(player);
+        ChestManager chestManager = ChestManager.getInstance();
+        int playerChestLimit = chestManager.getMaxPlaceableChests(player);
+        int playerChestCount = chestManager.getChestCount(player);
 
-        SellChestType sellChestType = chestHandler.getType(itemPath);
+        SellChestType sellChestType = chestManager.getType(chestId);
         String chestName = sellChestType.getName();
         double tax = sellChestType.getTax();
         double sellMultiplier = sellChestType.getSellMultiplier();
@@ -69,65 +103,6 @@ public class ShopMenu extends LitGui {
         meta.setDisplayName(itemName);
         itemStack.setItemMeta(meta);
 
-        return item;
+        return itemStack;
     }
-
-    @Override
-    public HashMap<String, String> getPlaceholders() {
-        return null;
-    }
-
-    @Override
-    public HashMap<String, GuiAction<InventoryClickEvent>> premadeGuiActions() {
-        return new HashMap<>();
-    }
-
-    @Override
-    public GuiAction<@NotNull InventoryClickEvent> getDefaultClickAction() {
-        return (event) -> {
-            event.setCancelled(true);
-
-            Player player = (Player) event.getWhoClicked();
-            NBTAPIHook nbtapiHook = litLibs.getNBTAPIHook();
-            ItemStack itemStack = event.getCurrentItem();
-            if (itemStack == null || itemStack.getType() == Material.AIR || itemStack.getAmount() < 1) return;
-
-            Action action = nbtapiHook.getGUIAction(itemStack);
-            VaultHook vaultHook = VaultHook.getInstance();
-            Economy economy = vaultHook.getEcon();
-
-            ChestHandler chestHandler = ChestHandler.getInstance();
-            SellChestType sellChestType = chestHandler.getType(action.getAction());
-
-            if (sellChestType != null) {
-                double price = sellChestType.getPrice();
-                double balance = economy.getBalance(player);
-                if (price <= balance) {
-                    economy.withdrawPlayer(player, price);
-                    ItemStack placeItem = sellChestType.toItemStack();
-                    player.getInventory().addItem(placeItem);
-                    String mes = ConfigHandler.getInstance().getRawMessageLang("ChestBought")
-                            .replace("%money%", (balance - price) + "");
-
-                    litLibs.getMessageHandler().sendMessage(player, mes);
-                    SoundManager.sendSound(player, "ChestReceive");
-                } else {
-                    ConfigHandler.getInstance().sendMessageLang(player, "NotEnoughMoney");
-                }
-            } else {
-                litLibs.getLogger().error("SellChestType " + action.getAction() + " not found in shop.");
-            }
-        };
-    }
-
-    @Override
-    public GuiAction<@NotNull InventoryClickEvent> getDefaultTopClickAction() {
-        return (event) -> event.setCancelled(true);
-    }
-
-    @Override
-    public GuiAction<@NotNull InventoryCloseEvent> getCloseGuiAction() {
-        return null;
-    }
-
 }

@@ -1,15 +1,17 @@
 package me.waterarchery.litsellchest.models;
 
+import com.chickennw.utils.managers.HookManager;
+import com.chickennw.utils.models.hooks.types.HologramHook;
+import com.chickennw.utils.utils.ConfigUtils;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import me.waterarchery.litlibs.LitLibs;
-import me.waterarchery.litlibs.hooks.HologramHook;
-import me.waterarchery.litsellchest.LitSellChest;
-import me.waterarchery.litsellchest.handlers.ConfigHandler;
+import me.waterarchery.litsellchest.configuration.config.LangFile;
+import me.waterarchery.litsellchest.managers.ChestManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,88 +19,123 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "lsc_sellchests")
+@NoArgsConstructor
 public class SellChest {
 
-    private final UUID uuid;
-    private final UUID owner;
-    private final SellChestType chestType;
-    private int remainingTime;
+    @Id
+    private UUID uuid;
+
+    @Column
+    private UUID owner;
+
+    @Column
+    private String world;
+
+    @Column
+    private String chestTypeId;
+
+    @Column
+    private int x;
+
+    @Column
+    private int y;
+
+    @Column
+    private int z;
+
+    @Column
     private double money;
+
+    @Transient
+    private int remainingTime;
+
+    @Transient
     private ChestStatus status;
-    private final String worldName;
-    private final int x;
-    private final int y;
-    private final int z;
-    private final double heightOffset;
+
+    @Transient
+    private SellChestType chestType;
+
+    @Transient
+    private double heightOffset;
 
     public SellChest(UUID uuid, UUID owner, SellChestType chestType, String worldName, int x, int y, int z, double money, ChestStatus status) {
         this.uuid = uuid;
         this.owner = owner;
         this.chestType = chestType;
-        this.remainingTime = (int) chestType.getSellInterval();
         this.money = money;
         this.status = status;
-        this.worldName = worldName;
+        this.world = worldName;
         this.x = x;
         this.y = y;
         this.z = z;
-        FileConfiguration yml = ConfigHandler.getInstance().getLang().getYml();
-        heightOffset = yml.getDouble("ChestHologram.height");
+        this.remainingTime = (int) chestType.getSellInterval();
+        chestTypeId = chestType.getId();
+
+        LangFile langFile = ConfigUtils.get(LangFile.class);
+        heightOffset = langFile.getChestHologram().getHeight();
+    }
+
+    @PostLoad
+    public void onLoad() {
+        ChestManager chestManager = ChestManager.getInstance();
+        chestType = chestManager.getType(chestTypeId);
+
+        this.remainingTime = (int) chestType.getSellInterval();
+        status = ChestStatus.WAITING;
+
+        LangFile langFile = ConfigUtils.get(LangFile.class);
+        heightOffset = langFile.getChestHologram().getHeight();
     }
 
     public void createHologram() {
         if (!isLoaded()) return;
 
-        LitLibs libs = LitSellChest.getLibs();
-        HologramHook hologramHook = libs.getHookHandler().getHologramHook();
+        HologramHook hologramHook = HookManager.getInstance().getHookWithType(HologramHook.class);
         List<String> lines = getHologramLines();
-        hologramHook.createHologram(getHologramLocation(), lines);
+        hologramHook.create(getHologramLocation(), lines);
     }
 
     public void deleteHologram() {
         if (!isLoaded()) return;
 
-        LitLibs libs = LitSellChest.getLibs();
-        HologramHook hologramHook = libs.getHookHandler().getHologramHook();
-        hologramHook.deleteHologram(getHologramLocation());
+        HologramHook hologramHook = HookManager.getInstance().getHookWithType(HologramHook.class);
+        hologramHook.remove(getHologramLocation());
     }
 
     public void updateHologram() {
         if (!isLoaded()) return;
 
-        LitLibs libs = LitSellChest.getLibs();
-        HologramHook hologramHook = libs.getHookHandler().getHologramHook();
-        hologramHook.updateHologram(getHologramLocation(), getHologramLines());
+        HologramHook hologramHook = HookManager.getInstance().getHookWithType(HologramHook.class);
+        hologramHook.update(getHologramLocation(), getHologramLines());
     }
 
     public List<String> getHologramLines() {
-        FileConfiguration yml = ConfigHandler.getInstance().getLang().getYml();
-        List<String> rawLines = yml.getStringList("ChestHologram.lines");
+        LangFile langFile = ConfigUtils.get(LangFile.class);
         List<String> lines = new ArrayList<>();
 
-        for (String line : rawLines) {
+        for (String line : langFile.getChestHologram().getLines()) {
             line = line.replace("%remainingTime%", getRemainingTime() + "")
                     .replace("%money%", getMoney() + "")
                     .replace("%status%", statusToText())
-                    .replace("%name%", getChestType().getRawName())
+                    .replace("%name%", getChestType().getName())
                     .replace("%sellMultiplier%", getChestType().getSellMultiplier() + "")
                     .replace("%tax%", getChestType().getTax() + "")
                     .replace("%sellInterval%", getChestType().getSellInterval() + "");
             lines.add(line);
         }
+
         return lines;
     }
 
     public String statusToText() {
-        FileConfiguration yml = ConfigHandler.getInstance().getLang().getYml();
+        LangFile langFile = ConfigUtils.get(LangFile.class);
 
         String statusText = "";
-        if (status == ChestStatus.WAITING)
-            statusText = yml.getString("Status.waiting");
-        else if (status == ChestStatus.SELLING)
-            statusText = yml.getString("Status.selling");
-        else if (status == ChestStatus.STOPPED)
-            statusText = yml.getString("Status.stopped");
+        if (status == ChestStatus.WAITING) statusText = langFile.getStatus().getWaiting();
+        else if (status == ChestStatus.SELLING) statusText = langFile.getStatus().getSelling();
+        else if (status == ChestStatus.STOPPED) statusText = langFile.getStatus().getStopped();
 
         return statusText;
     }
@@ -113,12 +150,8 @@ public class SellChest {
         return false;
     }
 
-    public UUID getUUID() {
-        return uuid;
-    }
-
     public Location getLocation() {
-        World world = Bukkit.getWorld(worldName);
+        World world = Bukkit.getWorld(this.world);
         return new Location(world, x, y, z);
     }
 
@@ -129,5 +162,4 @@ public class SellChest {
     public Location getHologramLocation() {
         return this.getLocation().clone().add(0.5, heightOffset, 0.5);
     }
-
 }

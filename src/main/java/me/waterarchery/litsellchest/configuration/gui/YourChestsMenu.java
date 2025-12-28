@@ -1,72 +1,85 @@
 package me.waterarchery.litsellchest.configuration.gui;
 
-import me.waterarchery.litlibs.LitLibs;
-import me.waterarchery.litlibs.handlers.MessageHandler;
-import me.waterarchery.litlibs.hooks.other.NBTAPIHook;
-import me.waterarchery.litlibs.inventory.ActionType;
-import me.waterarchery.litlibs.utils.ChatUtils;
-import me.waterarchery.litsellchest.LitSellChest;
-import me.waterarchery.litsellchest.handlers.ChestHandler;
-import me.waterarchery.litsellchest.handlers.ConfigHandler;
+import com.chickennw.utils.libs.themoep.inventorygui.GuiElement;
+import com.chickennw.utils.libs.themoep.inventorygui.InventoryGui;
+import com.chickennw.utils.models.menus.LitMenuItemHolder;
+import com.chickennw.utils.models.menus.LitPaginatedMenu;
+import com.chickennw.utils.utils.ChatUtils;
+import me.waterarchery.litsellchest.managers.ChestManager;
 import me.waterarchery.litsellchest.models.SellChest;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class YourChestsMenu {
+public class YourChestsMenu extends LitPaginatedMenu {
 
-    public static Inventory generateInventory(Player player) {
-        LitLibs libs = LitSellChest.getLibs();
-        ChestHandler chestHandler = ChestHandler.getInstance();
-        NBTAPIHook nbtapiHook = libs.getNBTAPIHook();
-
-        String menuName = "your_chests";
-        FileConfiguration yaml = ConfigHandler.getInstance().getGUIYaml(menuName);
-
-        int size = yaml.getInt(menuName + ".size");
-        String name = yaml.getString(menuName + ".name");
-        name = ChatUtils.colorizeLegacy(name);
-
-        Inventory inventory = Bukkit.createInventory(null, size, name);
-        List<SellChest> chests = chestHandler.getPlayerChests(player);
-        for (SellChest chest : chests) {
-            String rawMaterial = yaml.getString("your_chests.chestItem.material");
-            String itemName = yaml.getString("your_chests.chestItem.name");
-            List<String> rawLore = yaml.getStringList("your_chests.chestItem.lore");
-
-            ItemStack itemStack = new ItemStack(Material.valueOf(rawMaterial));
-            ItemMeta meta = itemStack.getItemMeta();
-            itemName = ChatUtils.colorizeLegacy(itemName);
-            meta.setDisplayName(itemName);
-
-            List<String> lore = new ArrayList<>();
-            for (String line : rawLore) {
-                line = ChatUtils.colorizeLegacy(line);
-                line = line.replace("%world%", chest.getLocation().getWorld().getName());
-                line = line.replace("%x%", chest.getLocation().getBlockX() + "");
-                line = line.replace("%y%", chest.getLocation().getBlockY() + "");
-                line = line.replace("%z%", chest.getLocation().getBlockZ() + "");
-                line = line.replace("%loaded%", chest.isLoaded() + "");
-
-                lore.add(line);
-            }
-
-            meta.setLore(lore);
-            itemStack.setItemMeta(meta);
-
-            itemStack = nbtapiHook.setGUIAction("your_chests", itemStack, "your_chests", ActionType.PLUGIN);
-            itemStack = nbtapiHook.setNBT(itemStack, "chestID", chest.getUUID() + "");
-            inventory.addItem(itemStack);
-        }
-
-        return inventory;
+    public YourChestsMenu(Player player) {
+        super("your_chests", player);
     }
 
+    @Override
+    public HashMap<String, GuiElement.Action> getGuiActions() {
+        return new HashMap<>();
+    }
+
+    @Override
+    public String parsePlaceholder(String s) {
+        return s;
+    }
+
+    @Override
+    public List<String> parsePlaceholderAsList(String s) {
+        return List.of(s);
+    }
+
+    @Override
+    public InventoryGui.CloseAction getCloseAction() {
+        return (close) -> false;
+    }
+
+    @Override
+    public List<LitMenuItemHolder> getTemplateItems() {
+        List<LitMenuItemHolder> items = new ArrayList<>();
+        ChestManager chestManager = ChestManager.getInstance();
+        List<SellChest> chests = chestManager.getPlayerChests(player);
+
+        for (SellChest chest : chests) {
+            LitMenuItemHolder itemHolder = createItem(player.getUniqueId(), "items.template-item");
+            ItemStack itemStack = getItemStack(itemHolder, chest);
+            itemHolder.setItemStack(itemStack);
+            items.add(itemHolder);
+
+            itemHolder.getItem().setAction(click -> {
+                chestManager.openChestInventoryOpen(chest, player);
+                return true;
+            });
+        }
+
+        return items;
+    }
+
+    private ItemStack getItemStack(LitMenuItemHolder itemHolder, SellChest chest) {
+        ItemStack itemStack = itemHolder.getItemStack();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        List<String> oldLore = itemMeta.getLore();
+        List<String> lore = new ArrayList<>();
+        oldLore.forEach(part -> {
+            part = ChatUtils.colorizeLegacy(part);
+            part = part.replace("%world%", chest.getLocation().getWorld().getName());
+            part = part.replace("%x%", chest.getLocation().getBlockX() + "");
+            part = part.replace("%y%", chest.getLocation().getBlockY() + "");
+            part = part.replace("%z%", chest.getLocation().getBlockZ() + "");
+            part = part.replace("%loaded%", chest.isLoaded() + "");
+
+            lore.add(part);
+        });
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
 }
