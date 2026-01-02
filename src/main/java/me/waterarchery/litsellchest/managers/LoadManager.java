@@ -1,5 +1,6 @@
 package me.waterarchery.litsellchest.managers;
 
+import com.chickennw.utils.configurations.HooksFile;
 import com.chickennw.utils.libs.cmd.core.suggestion.SuggestionKey;
 import com.chickennw.utils.managers.CommandManager;
 import com.chickennw.utils.managers.ConfigManager;
