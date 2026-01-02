@@ -131,9 +131,9 @@
 
       <!-- Utils -->
       <dependency>
-          <groupId>com.chickennw</groupId>
-          <artifactId>chicken-utils</artifactId>
-          <version>1.1.5</version>
+          <groupId>com.github.Chicken-Network-MC</groupId>
+          <artifactId>ChickenUtils</artifactId>
+          <version>1.2.4</version>
       </dependency>
 
       <!-- Mojang API -->
