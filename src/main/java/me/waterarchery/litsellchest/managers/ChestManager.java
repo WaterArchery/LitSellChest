@@ -220,7 +220,7 @@ public class ChestManager {
 
     public void deleteChest(SellChest chest, boolean dropItem, boolean dropContents) {
         chest.deleteHologram();
-        loadedChests.remove(chest);
+        loadedChests.remove(chest.getUuid());
 
         for (UUID playerUUID : chestOwners.keySet()) {
             UUID chestUUID = chestOwners.get(playerUUID);
