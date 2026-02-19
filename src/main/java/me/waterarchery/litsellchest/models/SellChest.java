@@ -117,12 +117,12 @@ public class SellChest {
 
         for (String line : langFile.getChestHologram().getLines()) {
             line = line.replace("%remainingTime%", getRemainingTime() + "")
-                    .replace("%money%", getMoney() + "")
-                    .replace("%status%", statusToText())
-                    .replace("%name%", getChestType().getName())
-                    .replace("%sellMultiplier%", getChestType().getSellMultiplier() + "")
-                    .replace("%tax%", getChestType().getTax() + "")
-                    .replace("%sellInterval%", getChestType().getSellInterval() + "");
+                .replace("%money%", getMoney() + "")
+                .replace("%status%", statusToText())
+                .replace("%name%", getChestType().getName())
+                .replace("%sellMultiplier%", getChestType().getSellMultiplier() + "")
+                .replace("%tax%", getChestType().getTax() + "")
+                .replace("%sellInterval%", getChestType().getSellInterval() + "");
             lines.add(line);
         }
 

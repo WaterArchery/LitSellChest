@@ -54,7 +54,7 @@ public class ChestPlaceListener implements Listener {
                         SoundUtils.sendSoundRaw(player, soundsFile.getChestPlace());
                     } else {
                         String mes = langFile.getLimitReached().replace("%current%", chestCount + "")
-                                .replace("%max%", maxChests + "");
+                            .replace("%max%", maxChests + "");
                         ChatUtils.sendMessage(player, mes);
                         SoundUtils.sendSoundRaw(player, soundsFile.getLimitExceedSound());
                         event.setCancelled(true);

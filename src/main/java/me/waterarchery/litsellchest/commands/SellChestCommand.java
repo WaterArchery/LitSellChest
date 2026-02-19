@@ -9,9 +9,10 @@ import com.chickennw.utils.models.commands.BaseCommand;
 import com.chickennw.utils.utils.ChatUtils;
 import com.chickennw.utils.utils.ConfigUtils;
 import me.waterarchery.litsellchest.configuration.config.LangFile;
-import me.waterarchery.litsellchest.configuration.gui.DefaultMenu;
-import me.waterarchery.litsellchest.configuration.gui.ShopMenu;
 import me.waterarchery.litsellchest.managers.ChestManager;
+import me.waterarchery.litsellchest.menus.DefaultMenu;
+import me.waterarchery.litsellchest.menus.ShopMenu;
+import me.waterarchery.litsellchest.menus.YourChestsMenu;
 import me.waterarchery.litsellchest.models.SellChestType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +37,13 @@ public class SellChestCommand extends BaseCommand {
     @Command("shop")
     public void shop(Player player) {
         ShopMenu shopMenu = new ShopMenu(player);
-        shopMenu.openAsync(player, shopMenu.generateGuiElements());
+        shopMenu.openAsync(player);
+    }
+
+    @Command("chests")
+    public void chests(Player player) {
+        YourChestsMenu menu = new YourChestsMenu(player);
+        menu.openAsync(player);
     }
 
     @Permission("litsellchest.admin.give")
@@ -51,7 +58,7 @@ public class SellChestCommand extends BaseCommand {
             chestManager.giveChest(target, chestType, Objects.requireNonNullElse(amount, 1));
 
             String senderMes = langFile.getChestGaveAdmin().replace("%player%", target.getName())
-                    .replace("%name%", chestType.getName());
+                .replace("%name%", chestType.getName());
             ChatUtils.sendMessage(sender, senderMes);
 
             String targetMes = langFile.getChestGaveTarget().replace("%name%", chestType.getName());

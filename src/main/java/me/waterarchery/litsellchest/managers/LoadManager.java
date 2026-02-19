@@ -7,7 +7,14 @@ import com.chickennw.utils.managers.ConfigManager;
 import com.chickennw.utils.models.metrics.PluginMetrics;
 import me.waterarchery.litsellchest.LitSellChest;
 import me.waterarchery.litsellchest.commands.SellChestCommand;
-import me.waterarchery.litsellchest.configuration.config.*;
+import me.waterarchery.litsellchest.configuration.config.ChestsFile;
+import me.waterarchery.litsellchest.configuration.config.ConfigFile;
+import me.waterarchery.litsellchest.configuration.config.LangFile;
+import me.waterarchery.litsellchest.configuration.config.SoundsFile;
+import me.waterarchery.litsellchest.configuration.menus.ChestMenuFile;
+import me.waterarchery.litsellchest.configuration.menus.DefaultMenuFile;
+import me.waterarchery.litsellchest.configuration.menus.ShopMenuFile;
+import me.waterarchery.litsellchest.configuration.menus.YourChestsMenuFile;
 import me.waterarchery.litsellchest.database.SellChestDatabase;
 import me.waterarchery.litsellchest.listeners.ChestBreakListener;
 import me.waterarchery.litsellchest.listeners.ChestPlaceListener;
@@ -39,12 +46,15 @@ public class LoadManager {
 
     private void loadConfigs() {
         ConfigManager configManager = ConfigManager.getInstance();
-        configManager.createFiles("menu");
         configManager.loadOkaeriConfig(ConfigFile.class);
         configManager.loadOkaeriConfig(LangFile.class);
         configManager.loadOkaeriConfig(SoundsFile.class);
         configManager.loadOkaeriConfig(ChestsFile.class);
         configManager.loadOkaeriConfig(HooksFile.class);
+        configManager.loadOkaeriConfig(DefaultMenuFile.class, "menu");
+        configManager.loadOkaeriConfig(ShopMenuFile.class, "menu");
+        configManager.loadOkaeriConfig(ChestMenuFile.class, "menu");
+        configManager.loadOkaeriConfig(YourChestsMenuFile.class, "menu");
     }
 
     private void registerEvents() {

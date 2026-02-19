@@ -62,15 +62,15 @@ public class ChestsFile extends OkaeriConfig {
         item.setMaterial(Material.CHEST);
         item.setCustomModelData(-1);
         item.setLore(List.of(
-                "<#CCFFEE>",
-                "<#47D4FF><bold>INFO",
-                "<#CCFFEE>You can place your items",
-                "<#CCFFEE>inside this chest to sell them.",
-                "<#CCFFEE>",
-                "<#47D4FF><bold>PROPERTIES",
-                "<#CCFFEE>Tax: <#47D4FF>%tax%%",
-                "<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%",
-                "<#CCFFEE>Interval: <#47D4FF>%sellInterval%s"
+            "<#CCFFEE>",
+            "<#47D4FF><bold>INFO",
+            "<#CCFFEE>You can place your items",
+            "<#CCFFEE>inside this chest to sell them.",
+            "<#CCFFEE>",
+            "<#47D4FF><bold>PROPERTIES",
+            "<#CCFFEE>Tax: <#47D4FF>%tax%%",
+            "<#CCFFEE>Sell Multiplier: <#47D4FF>%sellMultiplier%",
+            "<#CCFFEE>Interval: <#47D4FF>%sellInterval%s"
         ));
         return item;
     }

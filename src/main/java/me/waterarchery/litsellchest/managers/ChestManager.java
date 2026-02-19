@@ -18,6 +18,7 @@ import me.waterarchery.litsellchest.models.ChestStatus;
 import me.waterarchery.litsellchest.models.SellChest;
 import me.waterarchery.litsellchest.models.SellChestType;
 import me.waterarchery.litsellchest.models.SellTask;
+import me.waterarchery.litsellchest.utils.LangUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -265,7 +266,7 @@ public class ChestManager {
                 ItemStack placeItem = sellChestType.getItemStack();
                 player.getInventory().addItem(placeItem);
 
-                String mes = langFile.getChestBought().replace("%money%", (balance - price) + "");
+                String mes = langFile.getChestBought().replace("%money%", LangUtils.formatNumber((balance - price)));
                 ChatUtils.sendMessage(player, mes);
                 SoundUtils.sendSoundRaw(player, soundsFile.getChestReceive());
             } else {

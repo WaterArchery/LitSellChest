@@ -22,21 +22,24 @@ public class ConfigFile extends OkaeriConfig {
     private boolean debugMessages = false;
 
     @Comment({"For example if a group named 'VIP' has permission 'litsellchest.placevip'",
-            "they can place 10 sell chests"})
+        "they can place 10 sell chests"})
     private List<String> placeLimits = List.of(
-            "litsellchest.placedefault:5",
-            "litsellchest.placevip:10",
-            "litsellchest.placemvip:12"
+        "litsellchest.placedefault:5",
+        "litsellchest.placevip:10",
+        "litsellchest.placemvip:12"
     );
 
     private boolean disableChestSellMessage = false;
+
     private boolean notSellingNotification = true;
+
+    private String numberFormatter = "#,##0.00";
 
     @Comment("It will check all chests in every 2 seconds")
     private int defaultCheckInterval = 2;
 
     @Comment({"If you make this to true, sell chests only works for online players",
-            "If you make this to false, sell chests work even player is offline"})
+        "If you make this to false, sell chests work even player is offline"})
     private boolean onlyWorkOnlinePlayers = true;
 
     private DatabaseConfiguration database = new DatabaseConfiguration();

@@ -46,30 +46,45 @@ public class LangFile extends OkaeriConfig {
 
     private Status status = new Status();
 
+    private TimeParser timeParser = new TimeParser();
+
+    @Getter
+    @Setter
+    public static class TimeParser extends OkaeriConfig {
+        private String day = "d";
+        private String days = "d";
+        private String hour = "h";
+        private String hours = "h";
+        private String minute = "m";
+        private String minutes = "m";
+        private String second = "s";
+        private String seconds = "s";
+    }
+
     @Getter
     @Setter
     public static class ChestHologram extends OkaeriConfig {
         private float height = 2.3f;
 
         @Comment({"You can define all the lines of",
-                "the Sell Chest Hologram.", "",
-                "Usable Placeholders:",
-                "%tax% -> replaces with tax",
-                "%name% -> replaces with Sell Chest name",
-                "%sellMultiplier% -> replaces with sell multiplier",
-                "%status% -> replaces with Sell Chest status",
-                "%sellInterval% -> replaces with selling interval",
-                "%remainingTime% -> replaces with remaining time"})
+            "the Sell Chest Hologram.", "",
+            "Usable Placeholders:",
+            "%tax% -> replaces with tax",
+            "%name% -> replaces with Sell Chest name",
+            "%sellMultiplier% -> replaces with sell multiplier",
+            "%status% -> replaces with Sell Chest status",
+            "%sellInterval% -> replaces with selling interval",
+            "%remainingTime% -> replaces with remaining time"})
         private List<String> lines = List.of(
-                "%name%",
-                "",
-                "<white>Sell Multiplier: <#47D4FF>%sellMultiplier%",
-                "<white>Tax: <#47D4FF>%tax%",
-                "<white>Status: <#47D4FF>%status%",
-                "<white>Sell Interval: <#47D4FF>%sellInterval%",
-                "",
-                "<#CCFFEE>Wait for selling action",
-                "<#CCFFEE>Remaining time: <#47D4FF>%remainingTime%"
+            "%name%",
+            "",
+            "<white>Sell Multiplier: <#47D4FF>%sellMultiplier%",
+            "<white>Tax: <#47D4FF>%tax%",
+            "<white>Status: <#47D4FF>%status%",
+            "<white>Sell Interval: <#47D4FF>%sellInterval%",
+            "",
+            "<#CCFFEE>Wait for selling action",
+            "<#CCFFEE>Remaining time: <#47D4FF>%remainingTime%"
         );
     }
 

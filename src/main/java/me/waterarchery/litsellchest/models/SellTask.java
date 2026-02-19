@@ -12,6 +12,7 @@ import me.waterarchery.litsellchest.configuration.config.ConfigFile;
 import me.waterarchery.litsellchest.configuration.config.LangFile;
 import me.waterarchery.litsellchest.configuration.config.SoundsFile;
 import me.waterarchery.litsellchest.managers.ChestManager;
+import me.waterarchery.litsellchest.utils.LangUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -82,7 +83,7 @@ public class SellTask extends BukkitRunnable {
             BlockState state = block.getState();
             if (state instanceof Chest) {
                 Chest chest = (Chest) block.getState();
-                // Selling chest contents
+
                 for (ItemStack itemStack : chest.getInventory()) {
                     if (itemStack != null && itemStack.getType() != Material.AIR) {
                         double price = priceHook.calculatePrice(itemStack);
@@ -96,12 +97,12 @@ public class SellTask extends BukkitRunnable {
                 // Selling nearby items
                 SellChestType type = sellChest.getChestType();
                 BoundingBox boundingBox = BoundingBox.of(block.getLocation(),
-                        type.getCollectRadius(),
-                        type.getCollectRadius(),
-                        type.getCollectRadius());
+                    type.getCollectRadius(),
+                    type.getCollectRadius(),
+                    type.getCollectRadius());
 
                 Collection<Entity> nearbyItems = block.getWorld().getNearbyEntities(boundingBox,
-                        (entity) -> entity.getType().name().contains("ITEM"));
+                    (entity) -> entity.getType().name().contains("ITEM"));
                 for (Entity item : nearbyItems) {
                     ItemStack itemStack = ((Item) item).getItemStack().clone();
                     if (itemStack != null && itemStack.getType() != Material.AIR) {
@@ -127,8 +128,8 @@ public class SellTask extends BukkitRunnable {
                     if (!disableSellMessage && offlinePlayer.isOnline()) {
                         Player player = offlinePlayer.getPlayer();
                         SoundUtils.sendSoundRaw(player, soundsFile.getSellSoundToPlayer());
-                        String msg = langFile.getMoneyDeposited().replace("%money%", String.format("%,.2f", totalPrice))
-                                .replace("%tax%", tax + "");
+                        String msg = langFile.getMoneyDeposited().replace("%money%", LangUtils.formatNumber(totalPrice))
+                            .replace("%tax%", tax + "");
                         ChatUtils.sendMessage(player, msg);
                     }
                 }
