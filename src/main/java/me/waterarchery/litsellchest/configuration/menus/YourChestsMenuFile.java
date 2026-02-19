@@ -27,7 +27,7 @@ public class YourChestsMenuFile extends OkaeriConfig implements TriumphMenuConfi
 
     private String title = "<dark_gray>SellChest - Your Chests";
 
-    private MenuFiller filler = new MenuFiller();
+    private MenuFiller filler = new MenuFiller(false);
 
     private SymboledMenuItem templateItem = new SymboledMenuItem(
         "%player-name%",
